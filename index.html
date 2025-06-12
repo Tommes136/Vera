@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page de Connexion</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #1e1e2f;
+            color: #f4f4f9;
+        }
+        .login-container {
+            background: #2c2c3e;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+            width: 280px;
+            text-align: center;
+        }
+        .login-container h2 {
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+        .login-container input {
+            width: 90%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #444;
+            border-radius: 5px;
+            background-color: #3a3a4f;
+            color: #ffffff;
+            text-align: center;
+        }
+        .login-container input::placeholder {
+            color: #b0b0c3;
+        }
+        .login-container button {
+            width: 90%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        .login-container button:hover {
+            background-color: #0056b3;
+        }
+        .message {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #000;
+            color: #fff;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Connexion</h2>
+        <form id="loginForm">
+            <input type="text" id="username" name="username" placeholder="Ton prénom" required>
+            <input type="password" id="password" name="password" placeholder="Mot de passe" required>
+            <div style="margin-top: 5px; font-size: 14px; color: #007BFF; cursor: pointer; text-decoration: underline; transition: color 0.3s ease;" id="forgotPassword">Mot de passe oublié ?</div>
+            <script>
+                // ------------------- Select the forgot password element -------------------
+                const forgotPassword = document.getElementById('forgotPassword');
+
+                // ------------------- Add hover effects -------------------
+                forgotPassword.addEventListener('mouseover', () => {
+                    forgotPassword.style.color = '#0056b3';
+                });
+                forgotPassword.addEventListener('mouseout', () => {
+                    forgotPassword.style.color = '#007BFF';
+                });
+
+                // ------------------- Handle click event -------------------
+                forgotPassword.addEventListener('click', () => {
+                    // Change the background and display the message
+                    document.body.style.backgroundColor = 'black';
+                    document.body.innerHTML = `
+                        <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; color: white; font-size: 24px; text-align: center;">
+                            <p>Salut, je vois que tu as oublié ton mot de passe, ce n'est pas grave, je suis là pour t'aider. Tu as compris ?</p>
+                            <div style="margin-top: 20px;">
+                                <button id="yesButton" style="margin-right: 10px; padding: 10px 20px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: background-color 0.3s ease, transform 0.2s ease;">Oui</button>
+                                <button id="noButton" style="padding: 10px 20px; background-color: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: background-color 0.3s ease, transform 0.2s ease;">Non</button>
+                            </div>
+                        </div>
+                    `;
+
+                    // ------------------- Select the buttons -------------------
+                    const yesButton = document.getElementById('yesButton');
+                    const noButton = document.getElementById('noButton');
+
+                    // ------------------- Add hover and click effects for "Yes" button -------------------
+                    yesButton.addEventListener('mouseover', () => {
+                        yesButton.style.backgroundColor = '#218838';
+                        yesButton.style.transform = 'scale(1.1)';
+                        yesButton.style.transition = 'all 0.3s ease';
+                    });
+                    yesButton.addEventListener('mouseout', () => {
+                        yesButton.style.backgroundColor = '#28a745';
+                        yesButton.style.transform = 'scale(1)';
+                        yesButton.style.transition = 'all 0.3s ease';
+                    });
+                    yesButton.addEventListener('mousedown', () => {
+                        yesButton.style.transform = 'scale(0.9)';
+                        yesButton.style.transition = 'transform 0.1s ease';
+                    });
+                    yesButton.addEventListener('mouseup', () => {
+                        yesButton.style.transform = 'scale(1.1)';
+                        yesButton.style.transition = 'transform 0.1s ease';
+                    });
+                    yesButton.addEventListener('click', () => {
+                        document.body.innerHTML = `
+                            <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; color: white; font-size: 24px; text-align: center;">
+                                <p>Quel est ton prénom ?</p>
+                                <input type="text" id="nameInput" placeholder="Entrez votre prénom" style="margin-top: 10px; padding: 10px; border-radius: 5px; border: 1px solid #444; background-color: #3a3a4f; color: white; text-align: center; transition: all 0.3s ease;">
+                                <button id="validateButton" style="margin-top: 20px; padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: all 0.3s ease;">Valider</button>
+                            </div>
+                        `;
+
+                        const nameInput = document.getElementById('nameInput');
+                        nameInput.addEventListener('focus', () => {
+                            nameInput.style.borderColor = '#007BFF';
+                            nameInput.style.boxShadow = '0 0 5px #007BFF';
+                        });
+                        nameInput.addEventListener('blur', () => {
+                            nameInput.style.borderColor = '#444';
+                            nameInput.style.boxShadow = 'none';
+                        });
+
+                        const validateButton = document.getElementById('validateButton');
+                        validateButton.addEventListener('mouseover', () => {
+                            validateButton.style.backgroundColor = '#0056b3';
+                            validateButton.style.transform = 'scale(1.1)';
+                        });
+                        validateButton.addEventListener('mouseout', () => {
+                            validateButton.style.backgroundColor = '#007BFF';
+                            validateButton.style.transform = 'scale(1)';
+                        });
+                        validateButton.addEventListener('mousedown', () => {
+                            validateButton.style.transform = 'scale(0.9)';
+                        });
+                        validateButton.addEventListener('mouseup', () => {
+                            validateButton.style.transform = 'scale(1.1)';
+                        });
+                        validateButton.addEventListener('click', () => {
+                            const nameValue = nameInput.value.trim().toLowerCase();
+                            if (
+                                nameValue === 'vera' || nameValue === 'véra' || nameValue === 'Vera' || nameValue === 'Véra' ||
+                                nameValue === 'Lois' || nameValue === 'lois' ||
+                                nameValue === 'Camila' || nameValue === 'camila'
+                            ) {
+                                document.body.innerHTML = `
+                                    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; color: white; font-size: 24px; text-align: center;">
+                                        <p>Quelle est ma date de naissance ?</p>
+                                        <div style="margin-top: 20px; display: flex; gap: 10px;">
+                                            <input type="number" id="dayInput" placeholder="Jour" style="width: 60px; padding: 8px; border-radius: 20px; border: 1px solid #007BFF; background-color: #1e1e2f; color: white; text-align: center; font-size: 16px; transition: all 0.3s ease;" min="1" max="31">
+                                            <input type="number" id="monthInput" placeholder="Mois" style="width: 60px; padding: 8px; border-radius: 20px; border: 1px solid #007BFF; background-color: #1e1e2f; color: white; text-align: center; font-size: 16px; transition: all 0.3s ease;" min="1" max="12">
+                                            <input type="number" id="yearInput" placeholder="Année" style="width: 80px; padding: 8px; border-radius: 20px; border: 1px solid #007BFF; background-color: #1e1e2f; color: white; text-align: center; font-size: 16px; transition: all 0.3s ease;" min="1900" max="2025">
+                                        </div>
+                                        <button id="validateDateButton" style="margin-top: 20px; padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 16px; transition: all 0.3s ease;">Valider</button>
+                                    </div>
+                                `;
+
+                                // Add hover effects for inputs
+                                const inputs = document.querySelectorAll('#dayInput, #monthInput, #yearInput');
+                                inputs.forEach(input => {
+                                    input.addEventListener('focus', () => {
+                                        input.style.borderColor = '#0056b3';
+                                        input.style.boxShadow = '0 0 5px #0056b3';
+                                    });
+                                    input.addEventListener('blur', () => {
+                                        input.style.borderColor = '#007BFF';
+                                        input.style.boxShadow = 'none';
+                                    });
+                                });
+
+                                const validateDateButton = document.getElementById('validateDateButton');
+
+                                // Add animation for the button
+                                validateDateButton.addEventListener('mouseover', () => {
+                                    validateDateButton.style.backgroundColor = '#0056b3';
+                                    validateDateButton.style.transform = 'scale(1.1)';
+                                });
+                                validateDateButton.addEventListener('mouseout', () => {
+                                    validateDateButton.style.backgroundColor = '#007BFF';
+                                    validateDateButton.style.transform = 'scale(1)';
+                                });
+                                validateDateButton.addEventListener('mousedown', () => {
+                                    validateDateButton.style.transform = 'scale(0.9)';
+                                });
+                                validateDateButton.addEventListener('mouseup', () => {
+                                    validateDateButton.style.transform = 'scale(1.1)';
+                                });
+
+                                validateDateButton.addEventListener('click', () => {
+                                    const day = document.getElementById('dayInput').value.trim();
+                                    const month = document.getElementById('monthInput').value.trim();
+                                    const year = document.getElementById('yearInput').value.trim();
+
+                                    if (day === '20' && (month === '1' || month === '01') && year === '2009') {
+                                        document.body.innerHTML = `
+                                            <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; color: white; font-size: 24px; text-align: center;">
+                                                <p>Mon nom de famille ?</p>
+                                                <div style="margin-top: 20px; display: flex; gap: 20px;">
+                                                    <button id="option1" style="padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 16px; transition: all 0.3s ease;">Pellet Bodrelot</button>
+                                                    <button id="option2" style="padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 16px; transition: all 0.3s ease;">Pelet Baudrelaut</button>
+                                                    <button id="option3" style="padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 16px; transition: all 0.3s ease;">Pellet Baudrelot</button>
+                                                </div>
+                                            </div>
+                                        `;
+
+                                        const buttons = document.querySelectorAll('button');
+                                        buttons.forEach(button => {
+                                            button.addEventListener('mouseover', () => {
+                                                button.style.backgroundColor = '#0056b3';
+                                                button.style.transform = 'scale(1.1)';
+                                                button.style.transition = 'all 0.3s ease';
+                                            });
+                                            button.addEventListener('mouseout', () => {
+                                                button.style.backgroundColor = '#007BFF';
+                                                button.style.transform = 'scale(1)';
+                                                button.style.transition = 'all 0.3s ease';
+                                            });
+                                            button.addEventListener('mousedown', () => {
+                                                button.style.transform = 'scale(0.9)';
+                                                button.style.transition = 'transform 0.1s ease';
+                                            });
+                                            button.addEventListener('mouseup', () => {
+                                                button.style.transform = 'scale(1.1)';
+                                                button.style.transition = 'transform 0.1s ease';
+                                            });
+                                        });
+
+                                        document.getElementById('option1').addEventListener('click', () => {
+                                            document.body.innerHTML = `
+                                                <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; color: white; font-size: 24px; text-align: center;">
+                                                    ❌ Mauvaise réponse. Recommence !
+                                                    <button id="retryButton" style="margin-top: 20px; padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: all 0.3s ease;">Revenir</button>
+                                                </div>
+                                            `;
+                                            const retryButton = document.getElementById('retryButton');
+                                            retryButton.addEventListener('click', () => {
+                                                forgotPassword.click();
+                                            });
+                                        });
+
+                                        document.getElementById('option2').addEventListener('click', () => {
+                                            document.body.innerHTML = `
+                                                <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; color: white; font-size: 24px; text-align: center;">
+                                                    ❌ Mauvaise réponse. Recommence !
+                                                    <button id="retryButton" style="margin-top: 20px; padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: all 0.3s ease;">Revenir</button>
+                                                </div>
+                                            `;
+                                            const retryButton = document.getElementById('retryButton');
+                                            retryButton.addEventListener('click', () => {
+                                                forgotPassword.click();
+                                            });
+                                        });
+
+                                        document.getElementById('option3').addEventListener('click', () => {
+                                            document.body.innerHTML = `
+                                                <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; color: white; font-size: 24px; text-align: center;">
+                                                    <p>Tu m'aimes ?</p>
+                                                    <div style="margin-top: 20px; display: flex; gap: 20px;">
+                                                        <button id="loveYes" style="padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 16px; transition: all 0.3s ease;">Oui</button>
+                                                        <button id="loveNo" style="padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 16px; transition: all 0.3s ease;">Non</button>
+                                                    </div>
+                                                </div>
+                                            `;
+
+                                            const loveYes = document.getElementById('loveYes');
+                                            const loveNo = document.getElementById('loveNo');
+
+                                            [loveYes, loveNo].forEach(button => {
+                                                button.addEventListener('mouseover', () => {
+                                                    button.style.backgroundColor = '#0056b3';
+                                                    button.style.transform = 'scale(1.1)';
+                                                    button.style.transition = 'all 0.3s ease';
+                                                });
+                                                button.addEventListener('mouseout', () => {
+                                                    button.style.backgroundColor = '#007BFF';
+                                                    button.style.transform = 'scale(1)';
+                                                    button.style.transition = 'all 0.3s ease';
+                                                });
+                                                button.addEventListener('mousedown', () => {
+                                                    button.style.transform = 'scale(0.9)';
+                                                    button.style.transition = 'transform 0.1s ease';
+                                                });
+                                                button.addEventListener('mouseup', () => {
+                                                    button.style.transform = 'scale(1.1)';
+                                                    button.style.transition = 'transform 0.1s ease';
+                                                });
+                                            });
+
+                                            loveNo.addEventListener('click', () => {
+                                                document.body.innerHTML = `
+                                                    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; color: white; font-size: 24px; text-align: center;">
+                                                        ❌ Mauvaise réponse. Recommence !
+                                                        <button id="retryButton" style="margin-top: 20px; padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: all 0.3s ease;">Revenir</button>
+                                                    </div>
+                                                `;
+                                                const retryButton = document.getElementById('retryButton');
+                                                retryButton.addEventListener('click', () => {
+                                                    document.getElementById('option3').click();
+                                                });
+                                            });
+
+                                            loveYes.addEventListener('click', () => {
+                                                document.body.innerHTML = `
+                                                    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; color: white; font-size: 24px; text-align: center;">
+                                                        <p>Penses-tu que je t'aime ?</p>
+                                                        <div style="margin-top: 20px; display: flex; gap: 20px;">
+                                                            <button id="thinkYes" style="padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 16px; transition: all 0.3s ease;">Oui</button>
+                                                            <button id="thinkNo" style="padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 16px; transition: all 0.3s ease;">Non</button>
+                                                        </div>
+                                                    </div>
+                                                `;
+
+                                                const thinkYes = document.getElementById('thinkYes');
+                                                const thinkNo = document.getElementById('thinkNo');
+
+                                                [thinkYes, thinkNo].forEach(button => {
+                                                    button.addEventListener('mouseover', () => {
+                                                        button.style.backgroundColor = '#0056b3';
+                                                        button.style.transform = 'scale(1.1)';
+                                                        button.style.transition = 'all 0.3s ease';
+                                                    });
+                                                    button.addEventListener('mouseout', () => {
+                                                        button.style.backgroundColor = '#007BFF';
+                                                        button.style.transform = 'scale(1)';
+                                                        button.style.transition = 'all 0.3s ease';
+                                                    });
+                                                    button.addEventListener('mousedown', () => {
+                                                        button.style.transform = 'scale(0.9)';
+                                                        button.style.transition = 'transform 0.1s ease';
+                                                    });
+                                                    button.addEventListener('mouseup', () => {
+                                                        button.style.transform = 'scale(1.1)';
+                                                        button.style.transition = 'transform 0.1s ease';
+                                                    });
+                                                });
+
+                                                thinkNo.addEventListener('click', () => {
+                                                    document.body.innerHTML = `
+                                                        <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; color: white; font-size: 24px; text-align: center;">
+                                                            ❌ Mauvaise réponse. Recommence !
+                                                            <button id="retryButton" style="margin-top: 20px; padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: all 0.3s ease;">Revenir</button>
+                                                        </div>
+                                                    `;
+                                                    const retryButton = document.getElementById('retryButton');
+                                                    retryButton.addEventListener('click', () => {
+                                                        loveYes.click();
+                                                    });
+                                                });
+
+                                                thinkYes.addEventListener('click', () => {
+                                                    document.body.innerHTML = `
+                                                        <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; color: white; font-size: 24px; text-align: center;">
+                                                            <p>Es-tu sûr(e) ?</p>
+                                                            <div style="margin-top: 20px; display: flex; gap: 20px;">
+                                                                <button id="sureYes" style="padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 16px; transition: all 0.3s ease;">Oui</button>
+                                                                <button id="sureNo" style="padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 16px; transition: all 0.3s ease;">Non</button>
+                                                            </div>
+                                                        </div>
+                                                    `;
+
+                                                    const sureYes = document.getElementById('sureYes');
+                                                    const sureNo = document.getElementById('sureNo');
+
+                                                    [sureYes, sureNo].forEach(button => {
+                                                        button.addEventListener('mouseover', () => {
+                                                            button.style.backgroundColor = '#0056b3';
+                                                            button.style.transform = 'scale(1.1)';
+                                                            button.style.transition = 'all 0.3s ease';
+                                                        });
+                                                        button.addEventListener('mouseout', () => {
+                                                            button.style.backgroundColor = '#007BFF';
+                                                            button.style.transform = 'scale(1)';
+                                                            button.style.transition = 'all 0.3s ease';
+                                                        });
+                                                        button.addEventListener('mousedown', () => {
+                                                            button.style.transform = 'scale(0.9)';
+                                                            button.style.transition = 'transform 0.1s ease';
+                                                        });
+                                                        button.addEventListener('mouseup', () => {
+                                                            button.style.transform = 'scale(1.1)';
+                                                            button.style.transition = 'transform 0.1s ease';
+                                                        });
+                                                    });
+
+                                                    sureNo.addEventListener('click', () => {
+                                                        document.body.innerHTML = `
+                                                            <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; color: white; font-size: 24px; text-align: center;">
+                                                                ❌ Mauvaise réponse. Recommence !
+                                                                <button id="retryButton" style="margin-top: 20px; padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: all 0.3s ease;">Revenir</button>
+                                                            </div>
+                                                        `;
+                                                        const retryButton = document.getElementById('retryButton');
+                                                        retryButton.addEventListener('click', () => {
+                                                            thinkYes.click();
+                                                        });
+                                                    });
+
+                                                    sureYes.addEventListener('click', () => {
+                                                        document.body.innerHTML = `
+                                                            <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; color: white; font-size: 24px; text-align: center;">
+                                                                <p>Voici le code a décoder :</p>
+                                                                <textarea id="codeToDecrypt" readonly style="margin-top: 20px; padding: 10px; width: 80%; height: 100px; border-radius: 10px; border: 1px solid #007BFF; background-color: #1e1e2f; color: white; text-align: center; font-size: 16px; transition: all 0.3s ease;">.--- . - .----. .- .. -- . ...- .-. .- .. -- . -. - -.-. --- -- -- . ..- -. --- ..- ..-.</textarea>
+                                                                <div style="margin-top: 20px; display: flex; gap: 20px;">
+                                                                    <button id="copyButton" style="padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 16px; transition: all 0.3s ease;">Copier</button>
+                                                                    <button id="backToLogin" style="padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 16px; transition: all 0.3s ease;">Revenir</button>
+                                                                </div>
+                                                            </div>
+                                                        `;
+
+                                                        const copyButton = document.getElementById('copyButton');
+                                                        const backToLogin = document.getElementById('backToLogin');
+                                                        const codeToDecrypt = document.getElementById('codeToDecrypt');
+
+                                                        // Add hover and click effects for buttons
+                                                        [copyButton, backToLogin].forEach(button => {
+                                                            button.addEventListener('mouseover', () => {
+                                                                button.style.backgroundColor = '#0056b3';
+                                                                button.style.transform = 'scale(1.1)';
+                                                                button.style.transition = 'all 0.3s ease';
+                                                            });
+                                                            button.addEventListener('mouseout', () => {
+                                                                button.style.backgroundColor = '#007BFF';
+                                                                button.style.transform = 'scale(1)';
+                                                                button.style.transition = 'all 0.3s ease';
+                                                            });
+                                                            button.addEventListener('mousedown', () => {
+                                                                button.style.transform = 'scale(0.9)';
+                                                                button.style.transition = 'transform 0.1s ease';
+                                                            });
+                                                            button.addEventListener('mouseup', () => {
+                                                                button.style.transform = 'scale(1.1)';
+                                                                button.style.transition = 'transform 0.1s ease';
+                                                            });
+                                                        });
+                                                        // Animation "liquide" lors du clic sur "Copier"
+                                                        copyButton.addEventListener('click', () => {
+                                                            // Animation: le bouton "fond" et coule comme du liquide
+                                                            copyButton.style.transition = 'transform 0.5s cubic-bezier(.68,-0.55,.27,1.55), background 0.3s, opacity 0.3s';
+                                                            copyButton.style.transform = 'scale(1.1)';
+                                                            copyButton.style.background = 'linear-gradient(90deg, #007BFF 0%, #28a745 100%)';
+                                                            copyButton.style.opacity = '0.7';
+
+                                                            // Création d'une goutte qui coule sous le bouton
+                                                            let drop = document.createElement('div');
+                                                            drop.style.position = 'absolute';
+                                                            drop.style.left = copyButton.offsetLeft + copyButton.offsetWidth / 2 - 10 + 'px';
+                                                            drop.style.top = copyButton.offsetTop + copyButton.offsetHeight + 'px';
+                                                            drop.style.width = '20px';
+                                                            drop.style.height = '20px';
+                                                            drop.style.borderRadius = '50%';
+                                                            drop.style.background = 'linear-gradient(180deg, #28a745 60%, #007BFF 100%)';
+                                                            drop.style.opacity = '0.8';
+                                                            drop.style.zIndex = '1000';
+                                                            drop.style.pointerEvents = 'none';
+                                                            drop.style.transition = 'transform 0.8s cubic-bezier(.68,-0.55,.27,1.55), opacity 0.8s';
+
+                                                            // Ajout de la goutte au body
+                                                            document.body.appendChild(drop);
+
+                                                            // Animation de la goutte qui coule
+                                                            setTimeout(() => {
+                                                                drop.style.transform = 'translateY(60px) scaleY(2)';
+                                                                drop.style.opacity = '0';
+                                                            }, 10);
+
+                                                            // Suppression de la goutte après animation
+                                                            setTimeout(() => {
+                                                                drop.remove();
+                                                            }, 900);
+
+                                                            navigator.clipboard.writeText(codeToDecrypt.value).then(() => {
+                                                                setTimeout(() => {
+                                                                    // "fondu" du bouton
+                                                                    copyButton.style.transform = 'scale(0.1)';
+                                                                    copyButton.style.opacity = '0';
+                                                                    setTimeout(() => {
+                                                                        copyButton.style.display = 'none';
+                                                                        const newBtn = document.createElement('button');
+                                                                        newBtn.textContent = 'Le code est copié !';
+                                                                        newBtn.style.padding = '10px 20px';
+                                                                        newBtn.style.backgroundColor = '#28a745';
+                                                                        newBtn.style.color = 'white';
+                                                                        newBtn.style.border = 'none';
+                                                                        newBtn.style.borderRadius = '10px';
+                                                                        newBtn.style.cursor = 'pointer';
+                                                                        newBtn.style.fontWeight = 'bold';
+                                                                        newBtn.style.fontSize = '16px';
+                                                                        newBtn.style.transition = 'all 0.3s ease';
+                                                                        newBtn.style.transform = 'scale(0.1)';
+                                                                        newBtn.style.opacity = '0';
+                                                                        copyButton.parentNode.insertBefore(newBtn, copyButton);
+
+                                                                        // Apparition du bouton "copié"
+                                                                        setTimeout(() => {
+                                                                            newBtn.style.transform = 'scale(1)';
+                                                                            newBtn.style.opacity = '1';
+                                                                        }, 10);
+
+                                                                        // Retour au bouton d'origine après 1.2s
+                                                                        setTimeout(() => {
+                                                                            newBtn.style.transform = 'scale(0.1)';
+                                                                            newBtn.style.opacity = '0';
+                                                                            setTimeout(() => {
+                                                                                newBtn.remove();
+                                                                                copyButton.style.display = '';
+                                                                                copyButton.style.transform = 'scale(1)';
+                                                                                copyButton.style.background = '#007BFF'; // Remet le bouton en bleu
+                                                                                copyButton.style.color = 'white';
+                                                                                copyButton.style.opacity = '1';
+                                                                            }, 300);
+                                                                        }, 1200);
+                                                                    }, 400);
+                                                                }, 600);
+                                                            });
+                                                        });
+
+                                                        // Return to login page
+                                                        backToLogin.addEventListener('click', () => {
+                                                            location.reload();
+                                                        });
+                                                    });
+                                                });
+                                            });
+
+                                        });
+                                    } else {
+                                        document.body.innerHTML = `
+                                            <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; color: white; font-size: 24px; text-align: center;">
+                                                ❌ Mauvaise réponse. Recommence !
+                                                <button id="retryButton" style="margin-top: 20px; padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: all 0.3s ease;">Revenir</button>
+                                            </div>
+                                        `;
+
+                                        const retryButton = document.getElementById('retryButton');
+                                        retryButton.addEventListener('mouseover', () => {
+                                            retryButton.style.backgroundColor = '#0056b3';
+                                            retryButton.style.transform = 'scale(1.1)';
+                                        });
+                                        retryButton.addEventListener('mouseout', () => {
+                                            retryButton.style.backgroundColor = '#007BFF';
+                                            retryButton.style.transform = 'scale(1)';
+                                        });
+                                        retryButton.addEventListener('mousedown', () => {
+                                            retryButton.style.transform = 'scale(0.9)';
+                                        });
+                                        retryButton.addEventListener('mouseup', () => {
+                                            retryButton.style.transform = 'scale(1.1)';
+                                        });
+                                        retryButton.addEventListener('click', () => {
+                                            forgotPassword.click();
+                                        });
+                                    }
+                                });
+
+
+
+                            
+                            } else {
+                                document.body.innerHTML = `
+                                    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; color: white; font-size: 24px; text-align: center;">
+                                        <p>Aïe, raté ! Tu vas tout recommencer.</p>
+                                        <button id="retryButton" style="margin-top: 20px; padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: all 0.3s ease;">Revenir</button>
+                                    </div>
+                                `;
+
+                                const retryButton = document.getElementById('retryButton');
+                                retryButton.addEventListener('mouseover', () => {
+                                    retryButton.style.backgroundColor = '#0056b3';
+                                    retryButton.style.transform = 'scale(1.1)';
+                                });
+                                retryButton.addEventListener('mouseout', () => {
+                                    retryButton.style.backgroundColor = '#007BFF';
+                                    retryButton.style.transform = 'scale(1)';
+                                });
+                                retryButton.addEventListener('mousedown', () => {
+                                    retryButton.style.transform = 'scale(0.9)';
+                                });
+                                retryButton.addEventListener('mouseup', () => {
+                                    retryButton.style.transform = 'scale(1.1)';
+                                });
+                                retryButton.addEventListener('click', () => {
+                                    forgotPassword.click();
+                                });
+                            }
+                        });
+                    });
+                   
+
+                    // ------------------- Add hover and click effects for "No" button -------------------
+                    noButton.addEventListener('mouseover', () => {
+                        noButton.style.backgroundColor = '#c82333';
+                        noButton.style.transform = 'scale(1.1)';
+                    });
+                    noButton.addEventListener('mouseout', () => {
+                        noButton.style.backgroundColor = '#dc3545';
+                        noButton.style.transform = 'scale(1)';
+                    });
+                    noButton.addEventListener('mousedown', () => {
+                        noButton.style.transform = 'scale(0.9)';
+                    });
+                    noButton.addEventListener('mouseup', () => {
+                        noButton.style.transform = 'scale(1.1)';
+                    });
+                    noButton.addEventListener('click', () => {
+                        document.body.innerHTML = `
+                            <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; color: white; font-size: 24px; text-align: center;">
+                                <p>😢 D'accord...</p>
+                                <button id="backButton" style="margin-top: 20px; padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: background-color 0.3s ease;">Revenir</button>
+                            </div>
+                        `;
+
+                        const backButton = document.getElementById('backButton');
+                        backButton.addEventListener('click', () => {
+                            forgotPassword.click();
+                        });
+                    });
+                    });
+            </script>
+
+
+
+            <button type="submit" id="submitButton" style="transition: transform 0.1s ease; margin-top: 15px;">Se connecter</button>
+            <script>
+                const submitButton = document.getElementById('submitButton');
+                submitButton.addEventListener('mousedown', () => {
+                    submitButton.style.transform = 'scale(0.95)';
+                });
+                submitButton.addEventListener('mouseup', () => {
+                    submitButton.style.transform = 'scale(1)';
+                });
+                submitButton.addEventListener('mouseleave', () => {
+                    submitButton.style.transform = 'scale(1)';
+                });
+            </script>
+        </form>
+        <div class="message" id="message">Tu es la meilleure</div>
+    </div>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const messageElement = document.getElementById('message');
+            const validPasswords = [
+                "JET'AIMEVRAIMENTCOMMEUNOUF",
+                "jet'aime vraiment comme un ouf",
+                "jetaime vraiment comme un ouf",
+                "jet'aimevraiment comme un ouf",
+                "jet'aime vraimentcomme un ouf",
+                "jet'aime vraiment commeun ouf",
+                "jet'aime vraiment comme unouf",
+                "jetaimevraimentcommeunouf",
+                "JET'AIME VRAIMENT COMME UN OUF",
+                "JETAIME VRAIMENT COMME UN OUF",
+                "JET'AIMEVRAIMENT COMME UN OUF",
+                "JET'AIME VRAIMENTCOMME UN OUF",
+                "JET'AIME VRAIMENT COMMEUN OUF",
+                "JET'AIME VRAIMENT COMME UNOUF",
+                "JET'AIMEVRAIMENTCOMMEUNOUF",
+                "Jet'aime vraiment comme un ouf",
+                "JeTaimeVraimentCommeUnOuf",
+                "Je t'aime vraiment comme un ouf",
+                "je t'aime vraiment comme un ouf",
+                "je t'aimevraiment comme un ouf",
+                "je t'aime vraimentcomme un ouf",
+                "je t'aime vraiment commeun ouf",
+                "je t'aime vraiment comme unouf",
+                "je t'aimevraimentcommeunouf",
+                "jetaimevraiment comme un ouf",
+                "jetaime vraimentcommeunouf",
+                "jet'aimevraimentcommeunouf"
+            ];
+            if (
+                (
+                    username === 'Vera' || username === 'Véra' || username === 'vera' || username === 'véra' ||
+                    username === 'Lois' || username === 'lois' ||
+                    username === 'Camila' || username === 'camila'
+                ) &&
+                validPasswords.some(p => p.replace(/\s+/g, '').toLowerCase() === password.replace(/\s+/g, '').toLowerCase())
+            ) {
+                const loginContainer = document.querySelector('.login-container');
+                loginContainer.style.transition = 'opacity 0.5s ease';
+                loginContainer.style.opacity = '0';
+                setTimeout(() => {
+                    document.body.style.backgroundColor = 'black';
+                    document.body.innerHTML = '<div id="animatedText" style="display: flex; justify-content: center; align-items: center; height: 100vh; color: white; font-size: 24px;"></div>';
+
+                    const text = "Salut Véra, si tu vois cela, c'est que c'est ton anniversaire. Je ne sais pas si tu t'en souviens, mais le 14 février je t'avais préparé une lettre. Tu veux la relire ?";
+                    const animatedTextElement = document.getElementById('animatedText');
+                    let index = 0;
+
+                    const interval = setInterval(() => {
+                        if (index < text.length) {
+                            animatedTextElement.textContent += text[index];
+                            index++;
+                        } else {
+                            clearInterval(interval);
+                            setTimeout(() => {
+                                // Crée un conteneur flex colonne centré
+                                const container = document.createElement('div');
+                                container.style.display = 'flex';
+                                container.style.flexDirection = 'column';
+                                container.style.alignItems = 'center';
+                                container.style.justifyContent = 'center';
+                                container.style.width = '100vw';
+                                container.style.height = '100vh';
+                                container.style.position = 'fixed';
+                                container.style.top = '0';
+                                container.style.left = '0';
+                                container.style.background = 'black';
+
+                                // Crée le texte animé déjà affiché
+                                const textDiv = document.createElement('div');
+                                textDiv.style.color = 'white';
+                                textDiv.style.fontSize = '24px';
+                                textDiv.style.textAlign = 'center';
+                                textDiv.textContent = animatedTextElement.textContent;
+
+                                // Crée le bloc boutons
+                                const btnDiv = document.createElement('div');
+                                btnDiv.style.marginTop = '40px';
+                                btnDiv.style.display = 'flex';
+                                btnDiv.style.gap = '20px';
+                                btnDiv.style.justifyContent = 'center';
+
+                                btnDiv.innerHTML = `
+                                    <button id="yesButton" style="padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 16px; transition: all 0.3s ease;">Oui</button>
+                                    <button id="noButton" style="padding: 10px 20px; background-color: #dc3545; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 16px; transition: all 0.3s ease;">Non</button>
+                                `;
+
+                                // Vide le body et ajoute le conteneur
+                                document.body.innerHTML = '';
+                                container.appendChild(textDiv);
+                                container.appendChild(btnDiv);
+                                document.body.appendChild(container);
+
+                                const yesButton = document.getElementById('yesButton');
+                                const noButton = document.getElementById('noButton');
+
+                                // Animation hover/click pour les deux boutons
+                                [yesButton, noButton].forEach(btn => {
+                                    btn.addEventListener('mouseover', () => {
+                                        btn.style.backgroundColor = btn.id === 'yesButton' ? '#0056b3' : '#c82333';
+                                        btn.style.transform = 'scale(1.1)';
+                                        btn.style.boxShadow = '0 4px 16px rgba(0,123,255,0.3)';
+                                    });
+                                    btn.addEventListener('mouseout', () => {
+                                        btn.style.backgroundColor = btn.id === 'yesButton' ? '#007BFF' : '#dc3545';
+                                        btn.style.transform = 'scale(1)';
+                                        btn.style.boxShadow = 'none';
+                                    });
+                                    btn.addEventListener('mousedown', () => {
+                                        btn.style.transform = 'scale(0.92)';
+                                    });
+                                    btn.addEventListener('mouseup', () => {
+                                        btn.style.transform = 'scale(1.1)';
+                                    });
+                                });
+
+                                yesButton.addEventListener('click', () => {
+                                    // Retire les boutons seulement quand le deuxième texte s'affiche
+                                    btnDiv.remove();
+                                    textDiv.textContent = '';
+                                    // Ajoute du padding pour centrer le texte et l'éloigner des bords
+                                    textDiv.style.padding = '40px 10vw';
+                                    textDiv.style.textAlign = 'center';
+                                    textDiv.style.maxWidth = '900px';
+                                    textDiv.style.margin = '0 auto';
+
+                                    // Afficher le texte complet, mais permettre le scroll vertical si besoin
+                                    const textContainer = document.createElement('div');
+                                    textContainer.style.width = '100%';
+                                    textContainer.style.position = 'relative';
+                                    textContainer.style.maxHeight = '80vh';
+                                    textContainer.style.overflowY = 'auto';
+                                    textContainer.style.margin = '30px auto 0 auto'; // espace en haut
+                                    textContainer.style.wordBreak = 'break-word';
+                                    textContainer.style.whiteSpace = 'pre-wrap';
+                                    textContainer.style.fontFamily = 'inherit';
+                                    textContainer.style.paddingRight = '8px'; // pour la scrollbar
+                                    textContainer.style.boxSizing = 'border-box';
+                                    textContainer.style.direction = 'ltr';
+                                    textContainer.style.scrollbarGutter = 'stable';
+                                    // Style la scrollbar pour qu'elle soit à droite
+                                    textContainer.style.scrollbarWidth = 'thin';
+                                    textContainer.style.scrollbarColor = '#007BFF #22223a';
+                                    textContainer.style.lineHeight = '2'; // Ajoute de l'espace entre les lignes
+                                    textContainer.textContent = `Salut Vera,\n 𝓗𝓸𝓷𝓷𝓮̂𝓽𝓮𝓶𝓮𝓷𝓽, 𝓳𝓮 𝓷𝓮 𝓼𝓪𝓲𝓼 𝓶𝓮̂𝓶𝓮 𝓹𝓪𝓼 𝓹𝓪𝓻 𝓸𝓾̀ 𝓬𝓸𝓶𝓶𝓮𝓷𝓬𝓮𝓻. 𝓝𝓸𝓷 𝓹𝓪𝓼 𝓹𝓪𝓻𝓬𝓮 𝓺𝓾𝓮 𝓳𝓮 𝓷’𝓪𝓲 𝓻𝓲𝓮𝓷 𝓪̀ 𝓭𝓲𝓻𝓮, 𝓳𝓾𝓼𝓽𝓮𝓶𝓮𝓷𝓽, 𝓪𝓾 𝓬𝓸𝓷𝓽𝓻𝓪𝓲𝓻𝓮. 𝓙’𝓪𝓲 𝓽𝓮𝓵𝓵𝓮𝓶𝓮𝓷𝓽 𝓭𝓮 𝓬𝓱𝓸𝓼𝓮𝓼 𝓪̀ 𝓽𝓮 𝓭𝓲𝓻𝓮 𝓺𝓾𝓮 𝓳’𝓪𝓲 𝓭𝓾 𝓶𝓪𝓵 𝓪̀ 𝓸𝓻𝓰𝓪𝓷𝓲𝓼𝓮𝓻 𝓼𝓮 𝓺𝓾𝓮 𝓳𝓮 𝓬𝓸𝓶𝓹𝓽𝓮 𝓭𝓲𝓻𝓮. 𝓒’𝓮𝓼𝓽 𝓾𝓷 𝓹𝓮𝓾 𝓬𝓸𝓶𝓶𝓮 𝓼𝓲 𝓳’𝓪𝓿𝓪𝓲𝓼 𝓾𝓷𝓮 𝓽𝓮𝓶𝓹𝓮̂𝓽𝓮 𝓭’𝓮́𝓶𝓸𝓽𝓲𝓸𝓷𝓼 𝓶𝓭𝓻, 𝓾𝓷𝓮 𝓽𝓸𝓷𝓷𝓮 𝓭𝓮 𝓹𝓮𝓷𝓼𝓮́𝓮𝓼 𝓺𝓾𝓲 𝓿𝓮𝓾𝓵𝓮𝓷𝓽 𝓼𝓸𝓻𝓽𝓲𝓻 𝓮𝓽 𝓺𝓾𝓮 𝓳𝓮 𝓭𝓸𝓲𝓼 𝓻𝓮𝓶𝓮𝓽𝓽𝓻𝓮 𝓮𝓷 𝓸𝓻𝓭𝓻𝓮 𝓹𝓸𝓾𝓻 𝓽𝓮 𝓭𝓲𝓻𝓮 𝓬𝓮 𝓺𝓾𝓮 𝓳𝓮 𝓻𝓮𝓼𝓼𝓮𝓷𝓼. 𝓙’𝓪𝓲 𝓮𝓷𝓿𝓲𝓮 𝓭𝓮 𝓫𝓲𝓮𝓷 𝓬𝓱𝓸𝓲𝓼𝓲𝓻 𝓶𝓸𝓽𝓼, 𝓭𝓮 𝓹𝓻𝓮𝓷𝓭𝓻𝓮 𝓵𝓮 𝓽𝓮𝓶𝓹𝓼 𝓭𝓮 𝓫𝓲𝓮𝓷 𝓵𝓮𝓼 𝓾𝓽𝓲𝓵𝓲𝓼𝓮𝓻, 𝓹𝓪𝓻𝓬𝓮 𝓺𝓾𝓮 𝓬𝓮 𝓺𝓾𝓮 𝓳𝓮 𝓻𝓮𝓼𝓼𝓮𝓷𝓼 𝓹𝓸𝓾𝓻 𝓽𝓸𝓲 𝓶𝓮́𝓻𝓲𝓽𝓮 𝓭’𝓮̂𝓽𝓻𝓮 𝓮𝔁𝓹𝓻𝓲𝓶𝓮́ 𝓪𝓿𝓮𝓬 𝓽𝓪𝓷𝓽 𝓭𝓮 𝓹𝓻𝓮́𝓬𝓪𝓾𝓽𝓲𝓸𝓷. 𝓐𝓾𝓳𝓸𝓾𝓻𝓭’𝓱𝓾𝓲, 𝓷𝓸𝓾𝓼 𝓼𝓸𝓶𝓶𝓮𝓼 𝓵𝓮 𝓵𝓾𝓷𝓭𝓲 3 𝓯𝓮́𝓿𝓻𝓲𝓮𝓻 2025, 𝓲𝓵 𝓮𝓼𝓽 𝓮𝔁𝓪𝓬𝓽𝓮𝓶𝓮𝓷𝓽 23𝓱20, 𝓮𝓽 𝓳’𝓪𝓲 𝓳𝓾𝓼𝓽𝓮 𝓮𝓷𝓿𝓲𝓮 𝓭𝓮 𝓭𝓲𝓻𝓮 𝓽𝓸𝓾𝓽 𝓬𝓮 𝓺𝓾𝓮 𝓳’𝓪𝓲 𝓼𝓾𝓻 𝓵𝓮 𝓬œ𝓾𝓻, 𝓼𝓪𝓷𝓼 𝓯𝓲𝓵𝓽𝓻𝓮, 𝓼𝓪𝓷𝓼 𝓵𝓲𝓶𝓲𝓽𝓮. 𝓓𝓪𝓷𝓼 𝓺𝓾𝓮𝓵𝓺𝓾𝓮𝓼 𝓳𝓸𝓾𝓻𝓼, 𝓬̧𝓪 𝓯𝓮𝓻𝓪 𝓭𝓮́𝓳𝓪̀ 𝓺𝓾𝓪𝓽𝓻𝓮 𝓶𝓸𝓲𝓼 𝓺𝓾𝓮 𝓵’𝓸𝓷 𝓮𝓼𝓽 𝓮𝓷𝓼𝓮𝓶𝓫𝓵𝓮. 𝓠𝓾𝓪𝓽𝓻𝓮 𝓶𝓸𝓲𝓼, 𝓼𝓸𝓲𝓽 5 184 000 𝓼𝓮𝓬𝓸𝓷𝓭𝓮𝓼 𝓭𝓮𝓹𝓾𝓲𝓼 𝓺𝓾’𝓸𝓷 𝓮𝓼𝓽 𝓸𝓯𝓯𝓲𝓬𝓲𝓮𝓵𝓵𝓮𝓶𝓮𝓷𝓽 𝓮𝓷 𝓬𝓸𝓾𝓹𝓵𝓮. 𝓓𝓲𝓼 𝓬𝓸𝓶𝓶𝓮 𝓬̧𝓪, 𝓬̧𝓪 𝓹𝓮𝓾𝓽 𝓹𝓪𝓻𝓪𝓲̂𝓽𝓻𝓮 𝓵𝓸𝓷𝓰, 𝓶𝓪𝓲𝓼 𝓹𝓸𝓾𝓻𝓽𝓪𝓷𝓽, 𝓳’𝓪𝓲 𝓵’𝓲𝓶𝓹𝓻𝓮𝓼𝓼𝓲𝓸𝓷 𝓺𝓾𝓮 𝓵𝓮 𝓽𝓮𝓶𝓹𝓼 𝓹𝓪𝓼𝓼𝓮 𝓪̀ 𝓾𝓷𝓮 𝓿𝓲𝓽𝓮𝓼𝓼𝓮 𝓲𝓷𝓯𝓲𝓷𝓲𝓮 𝓺𝓾𝓪𝓷𝓭 𝓳𝓮 𝓼𝓾𝓲𝓼 𝓪𝓿𝓮𝓬 𝓽𝓸𝓲. 𝓙’𝓪𝓲 𝓵’𝓲𝓶𝓹𝓻𝓮𝓼𝓼𝓲𝓸𝓷 𝓺𝓾𝓮 𝓬𝓱𝓪𝓺𝓾𝓮 𝓶𝓸𝓶𝓮𝓷𝓽 𝓺𝓾𝓮 𝓵’𝓸𝓷 𝓹𝓪𝓼𝓼𝓮 𝓮𝓷𝓼𝓮𝓶𝓫𝓵𝓮 𝓹𝓪𝓼𝓼𝓮 𝓭𝓮 𝓺𝓾𝓮𝓵𝓺𝓾𝓮𝓼 𝓱𝓮𝓾𝓻𝓮𝓼 𝓪̀ 𝓺𝓾𝓮𝓵𝓺𝓾𝓮𝓼 𝓼𝓮𝓬𝓸𝓷𝓭𝓮𝓼, 𝓬𝓸𝓶𝓶𝓮 𝓼𝓲 𝓵𝓮𝓼 𝓶𝓲𝓷𝓾𝓽𝓮𝓼 𝓮𝓽 𝓵𝓮𝓼 𝓱𝓮𝓾𝓻𝓮𝓼 𝓼’𝓮𝓯𝓯𝓪𝓬𝓮𝓷𝓽 𝓹𝓸𝓾𝓻 𝓵𝓪𝓲𝓼𝓼𝓮𝓻 𝓹𝓵𝓪𝓬𝓮 𝓪𝓾𝔁 𝓼𝓮𝓬𝓸𝓷𝓭𝓮𝓼. 𝓐𝓿𝓪𝓷𝓽 𝓭𝓮 𝓽𝓮 𝓬𝓸𝓷𝓷𝓪𝓲̂𝓽𝓻𝓮, 𝓳’𝓮́𝓽𝓪𝓲𝓼 𝓺𝓾𝓮𝓵𝓺𝓾’𝓾𝓷 𝓭’𝓪𝓼𝓼𝓮𝔃 “𝓷𝓸𝓻𝓶𝓪𝓵”, 𝓼𝓪𝓷𝓼 𝓽𝓻𝓸𝓹 𝓭’𝓲𝓷𝓽𝓮́𝓻𝓮̂𝓽, 𝓺𝓾𝓮𝓵𝓺𝓾’𝓾𝓷 𝓺𝓾𝓲 𝓪𝓿𝓪𝓷𝓬̧𝓪𝓲𝓽 𝓼𝓪𝓷𝓼 𝓻𝓮́𝓮𝓵 𝓫𝓾𝓽, 𝓼𝓪𝓷𝓼 𝓰𝓻𝓪𝓷𝓭𝓮 𝓶𝓸𝓽𝓲𝓿𝓪𝓽𝓲𝓸𝓷. 𝓒’𝓮𝓼𝓽 𝓹𝓪𝓼 𝓺𝓾𝓮 𝓳’𝓮́𝓽𝓪𝓲𝓼 𝓶𝓪𝓵𝓱𝓮𝓾𝓻𝓮𝓾𝔁, 𝓶𝓪𝓲𝓼 𝓲𝓵 𝓶𝓮 𝓶𝓪𝓷𝓺𝓾𝓪𝓲𝓽 𝓺𝓾𝓮𝓵𝓺𝓾𝓮 𝓬𝓱𝓸𝓼𝓮. 𝓙𝓮 𝓷𝓮 𝓿𝓪𝓲𝓼 𝓹𝓪𝓼 𝓭𝓲𝓻𝓮 𝓺𝓾𝓮 𝓬’𝓮𝓼𝓽 𝓾𝓷𝓲𝓺𝓾𝓮𝓶𝓮𝓷𝓽 𝓰𝓻𝓪̂𝓬𝓮 𝓪̀ 𝓽𝓸𝓲 𝓺𝓾𝓮 𝓬̧𝓪 𝓪 𝓬𝓱𝓪𝓷𝓰𝓮́, 𝓬𝓪𝓻 𝓬𝓮 𝓼𝓮𝓻𝓪𝓲𝓽 𝓽𝓮 𝓶𝓮𝓷𝓽𝓲𝓻 𝓮𝓽 𝓳’𝓪𝓲 𝓮𝓷𝓿𝓲𝓮 𝓭’𝓮̂𝓽𝓻𝓮 𝓬𝓸𝓶𝓹𝓵𝓮̀𝓽𝓮𝓶𝓮𝓷𝓽 𝓱𝓸𝓷𝓷𝓮̂𝓽𝓮 𝓪𝓿𝓮𝓬 𝓽𝓸𝓲. 𝓜𝓪𝓲𝓼 𝓬𝓮 𝓺𝓾𝓮 𝓳𝓮 𝓹𝓮𝓾𝔁 𝓽’𝓪𝓯𝓯𝓲𝓻𝓶𝓮𝓻 𝓪𝓿𝓮𝓬 𝓬𝓮𝓻𝓽𝓲𝓽𝓾𝓭𝓮, 𝓺𝓾𝓮 𝓭𝓮𝓹𝓾𝓲𝓼 𝓺𝓾𝓮 𝓽𝓾 𝓮𝓼 𝓮𝓷𝓽𝓻𝓮́𝓮 𝓭𝓪𝓷𝓼 𝓶𝓪 𝓿𝓲𝓮, 𝓳𝓮 𝓿𝓲𝓼 𝓾𝓷 𝓻𝓮̂𝓿𝓮 𝓮́𝓿𝓮𝓲𝓵𝓵𝓮́. 𝓙’𝓪𝓲 𝓵’𝓲𝓶𝓹𝓻𝓮𝓼𝓼𝓲𝓸𝓷 𝓭’𝓪𝓿𝓸𝓲𝓻 𝓻𝓮𝓭𝓮́𝓬𝓸𝓾𝓿𝓮𝓻𝓽 𝓵𝓮 𝓰𝓸𝓾̂𝓽 𝓭𝓮 𝓵𝓪 𝓿𝓲𝓮, 𝓵𝓪 𝓿𝓻𝓪𝓲𝓮, 𝓬𝓮𝓵𝓵𝓮 𝓺𝓾𝓲 𝓶𝓮 𝓭𝓸𝓷𝓷𝓮 𝓮𝓷𝓿𝓲𝓮 𝓭𝓮 𝓶𝓮 𝓵𝓮𝓿𝓮𝓻 𝓵𝓮 𝓶𝓪𝓽𝓲𝓷, 𝓷𝓸𝓷 𝓼𝓮𝓾𝓵𝓮𝓶𝓮𝓷𝓽 𝓹𝓸𝓾𝓻 𝓪𝓵𝓵𝓮𝓻 𝓮𝓷 𝓬𝓸𝓾𝓻𝓼 𝓮𝓽 𝓿𝓸𝓲𝓻 𝓶𝓮𝓼 𝓹𝓸𝓽𝓮𝓼, 𝓶𝓪𝓲𝓼 𝓼𝓾𝓻𝓽𝓸𝓾𝓽 𝓹𝓪𝓻𝓬𝓮 𝓺𝓾𝓮 𝓳𝓮 𝓼𝓪𝓲𝓼 𝓺𝓾𝓮 𝓵𝓮 𝓼𝓸𝓲𝓻, 𝓳𝓮 𝓹𝓸𝓾𝓻𝓻𝓪𝓲 𝓽𝓮 𝓿𝓸𝓲𝓻 𝓽𝓸𝓲, 𝓮𝓽 𝓽𝓪 𝓽𝓮̂𝓽𝓮 𝓭𝓮 𝓹𝓸𝓲𝓼𝓼𝓸𝓷, 𝓽𝓮 𝓹𝓪𝓻𝓵𝓮𝓻, 𝓪𝓭𝓶𝓲𝓻𝓮𝓻 𝓽𝓸𝓷 𝓼𝓸𝓾𝓻𝓲𝓻𝓮 𝓮𝓽 𝓶𝓮 𝓭𝓲𝓻𝓮 𝓪̀ 𝓺𝓾𝓮𝓵 𝓹𝓸𝓲𝓷𝓽 𝓳’𝓪𝓲 𝓭𝓮 𝓵𝓪 𝓬𝓱𝓪𝓷𝓬𝓮 𝓭𝓮 𝓽’𝓪𝓿𝓸𝓲𝓻. 𝓒’𝓮𝓼𝓽 𝓾𝓷 𝓼𝓮𝓷𝓽𝓲𝓶𝓮𝓷𝓽 𝓭𝓲𝓯𝓯𝓲𝓬𝓲𝓵𝓮 𝓪̀ 𝓮𝔁𝓹𝓵𝓲𝓺𝓾𝓮𝓻. 𝓘𝓵 𝓼𝓮 𝓹𝓪𝓼𝓼𝓮 𝓽𝓮𝓵𝓵𝓮𝓶𝓮𝓷𝓽 𝓭𝓮 𝓬𝓱𝓸𝓼𝓮𝓼 𝓮𝓷 𝓬𝓮 𝓶𝓸𝓶𝓮𝓷𝓽, 𝓭𝓪𝓷𝓼 𝓶𝓪 𝓽𝓮̂𝓽𝓮 𝓮𝓽 𝓭𝓪𝓷𝓼 𝓶𝓪 𝓿𝓲𝓮, 𝓶𝓪𝓲𝓼 𝓼’𝓲𝓵 𝔂 𝓪 𝓫𝓲𝓮𝓷 𝓾𝓷𝓮 𝓬𝓱𝓸𝓼𝓮 𝓭𝓸𝓷𝓽 𝓳𝓮 𝓼𝓾𝓲𝓼 𝓼𝓾̂𝓻, 𝓬’𝓮𝓼𝓽 𝓺𝓾’𝓪𝓿𝓮𝓬 𝓽𝓸𝓲, 𝓳𝓮 𝓶𝓮 𝓼𝓮𝓷𝓼 𝓪𝓲𝓶𝓮́ 𝓮𝓽 𝓮𝓷𝓽𝓸𝓾𝓻𝓮́ 𝓭𝓮 𝓵𝓪 𝓶𝓮𝓲𝓵𝓵𝓮𝓾𝓻𝓮 𝓭𝓮𝓼 𝓯𝓪𝓬̧𝓸𝓷𝓼. 𝓣𝓾 𝓷𝓮 𝓹𝓮𝓾𝔁 𝓹𝓪𝓼 𝓼𝓪𝓿𝓸𝓲𝓻 𝓪̀ 𝓺𝓾𝓮𝓵 𝓹𝓸𝓲𝓷𝓽 𝓬̧𝓪 𝓬𝓸𝓶𝓹𝓽𝓮 𝓹𝓸𝓾𝓻 𝓶𝓸𝓲 𝓭’𝓪𝓿𝓸𝓲𝓻 𝓺𝓾𝓮𝓵𝓺𝓾’𝓾𝓷 𝓬𝓸𝓶𝓶𝓮 𝓽𝓸𝓲 𝓹𝓸𝓾𝓻 𝓶’𝓮́𝓹𝓪𝓾𝓵𝓮𝓻, 𝓺𝓾𝓮𝓵𝓺𝓾’𝓾𝓷 𝓺𝓾𝓲 𝓶𝓮 𝓬𝓸𝓶𝓹𝓻𝓮𝓷𝓭, 𝓺𝓾𝓲 𝓶𝓮 𝓼𝓸𝓾𝓽𝓲𝓮𝓷𝓽 𝓼𝓪𝓷𝓼 𝓶𝓮̂𝓶𝓮 𝓪𝓿𝓸𝓲𝓻 𝓫𝓮𝓼𝓸𝓲𝓷 𝓭𝓮 𝓹𝓪𝓻𝓵𝓮𝓻. 𝓣𝓾 𝓮𝓼 𝓵’𝓾𝓷𝓮 𝓭𝓮𝓼 𝓻𝓪𝓻𝓮𝓼 𝓹𝓮𝓻𝓼𝓸𝓷𝓷𝓮𝓼 𝓪𝓿𝓮𝓬 𝓺𝓾𝓲 𝓳𝓮 𝓹𝓮𝓾𝔁 𝓮̂𝓽𝓻𝓮 𝓶𝓸𝓲-𝓶𝓮̂𝓶𝓮, 𝓼𝓪𝓷𝓼 𝓪𝓿𝓸𝓲𝓻 𝓹𝓮𝓾𝓻 𝓭’𝓮̂𝓽𝓻𝓮 𝓳𝓾𝓰𝓮́, 𝓮𝓽 𝓬̧𝓪, 𝓬’𝓮𝓼𝓽 𝓾𝓷𝓮 𝓭𝓮𝓼 𝓹𝓵𝓾𝓼 𝓫𝓮𝓵𝓵𝓮𝓼 𝓬𝓱𝓸𝓼𝓮𝓼 𝓺𝓾’𝓸𝓷 𝓹𝓾𝓲𝓼𝓼𝓮 𝓸𝓯𝓯𝓻𝓲𝓻 𝓪̀ 𝓾𝓷 𝓶𝓮𝓬 𝓬𝓸𝓶𝓶𝓮 𝓶𝓸𝓲. 𝓣𝓾 𝓼𝓪𝓲𝓼, 𝓳𝓮 𝓷𝓮 𝓼𝓾𝓲𝓼 𝓹𝓪𝓼 𝓽𝓸𝓾𝓳𝓸𝓾𝓻𝓼 𝓭𝓮́𝓶𝓸𝓷𝓼𝓽𝓻𝓪𝓽𝓲𝓯. 𝓒𝓮 𝓷’𝓮𝓼𝓽 𝓹𝓪𝓼 𝓭𝓪𝓷𝓼 𝓶𝓸𝓷 𝓵𝓪𝓷𝓰𝓾𝓪𝓰𝓮 𝓱𝓪𝓫𝓲𝓽𝓾𝓮𝓵 𝓭𝓮 𝓭𝓲𝓻𝓮 “𝓳𝓮 𝓽’𝓪𝓲𝓶𝓮” 𝓪̀ 𝓵𝓸𝓷𝓰𝓾𝓮𝓾𝓻 𝓭𝓮 𝓳𝓸𝓾𝓻𝓷𝓮́𝓮 𝓸𝓾 𝓭’𝓮̂𝓽𝓻𝓮 𝓱𝔂𝓹𝓮𝓻 𝓪𝓯𝓯𝓮𝓬𝓽𝓾𝓮𝓾𝔁. 𝓜𝓪𝓲𝓼 𝓷𝓮 𝓬𝓻𝓸𝓲𝓼 𝓳𝓪𝓶𝓪𝓲𝓼 𝓺𝓾𝓮 𝓬̧𝓪 𝓼𝓲𝓰𝓷𝓲𝓯𝓲𝓮 𝓺𝓾𝓮 𝓳𝓮 𝓽’𝓪𝓲𝓶𝓮 𝓹𝓪𝓼. 𝓒𝓮 𝓷’𝓮𝓼𝓽 𝓹𝓪𝓼 𝓹𝓪𝓻𝓬𝓮 𝓺𝓾𝓮 𝓳𝓮 𝓷𝓮 𝓵𝓮 𝓭𝓲𝓼 𝓹𝓪𝓼 𝓼𝓪𝓷𝓼 𝓪𝓻𝓻𝓮̂𝓽 𝓺𝓾𝓮 𝓬𝓮 𝓷’𝓮𝓼𝓽 𝓹𝓪𝓼 𝓿𝓻𝓪𝓲, 𝓫𝓲𝓮𝓷 𝓪𝓾 𝓬𝓸𝓷𝓽𝓻𝓪𝓲𝓻𝓮. 𝓒’𝓮𝓼𝓽 𝓳𝓾𝓼𝓽𝓮 𝓶𝓪 𝓯𝓪𝓬̧𝓸𝓷 𝓭’𝓪𝓲𝓶𝓮𝓻, 𝓮𝓵𝓵𝓮 𝓮𝓼𝓽 𝓹𝓮𝓾𝓽 𝓮̂𝓽𝓻𝓮 𝓪𝓽𝔂𝓹𝓲𝓺𝓾𝓮, 𝓶𝓪𝓲𝓼 𝓮𝓵𝓵𝓮 𝓮𝓼𝓽 𝓼𝓲𝓷𝓬𝓮̀𝓻𝓮. 𝓙𝓮 𝓻𝓮𝓼𝓼𝓮𝓷𝓼 𝓵’𝓪𝓶𝓸𝓾𝓻 𝓺𝓾𝓮 𝓳𝓮 𝓽𝓮 𝓹𝓸𝓻𝓽𝓮, 𝓶𝓪𝓲𝓼 𝓳𝓮 𝓷𝓮 𝓵’𝓮𝔁𝓹𝓻𝓲𝓶𝓮 𝓹𝓪𝓼 𝓽𝓸𝓾𝓳𝓸𝓾𝓻𝓼 𝓬𝓸𝓶𝓶𝓮 𝓲𝓵 𝓵𝓮 𝓯𝓪𝓾𝓭𝓻𝓪𝓲𝓽. 𝓒𝓮 𝓺𝓾𝓮 𝓳𝓮 𝓻𝓮𝓼𝓼𝓮𝓷𝓼 𝓹𝓸𝓾𝓻 𝓽𝓸𝓲 𝓮𝓼𝓽 𝓫𝓲𝓮𝓷 𝓹𝓵𝓾𝓼 𝓲𝓷𝓮𝓯𝓯𝓪𝓫𝓵𝓮 𝓺𝓾𝓮 𝓬𝓮 𝓺𝓾𝓮 𝓳𝓮 𝓵𝓪𝓲𝓼𝓼𝓮 𝓹𝓪𝓻𝓪𝓲̂𝓽𝓻𝓮. 𝓒𝓱𝓪𝓺𝓾𝓮 𝓻𝓮𝓰𝓪𝓻𝓭 𝓺𝓾𝓮 𝓽𝓾 𝓹𝓸𝓼𝓮𝓼 𝓼𝓾𝓻 𝓶𝓸𝓲, 𝓬𝓱𝓪𝓺𝓾𝓮 𝓼𝓸𝓾𝓻𝓲𝓻𝓮 𝓺𝓾𝓮 𝓽𝓾 𝓶𝓮 𝓹𝓸𝓻𝓽𝓮𝓼, 𝓬𝓱𝓪𝓺𝓾𝓮 𝓹𝓮𝓽𝓲𝓽𝓮 𝓪𝓽𝓽𝓮𝓷𝓽𝓲𝓸𝓷 𝓺𝓾𝓮 𝓽𝓾 𝓪𝓼 𝓪̀ 𝓶𝓸𝓷 𝓮́𝓰𝓪𝓻𝓭 𝓶𝓮 𝓻𝓮𝓷𝓭𝓮𝓷𝓽 𝓲𝓷𝓯𝓲𝓷𝓲𝓶𝓮𝓷𝓽 𝓱𝓮𝓾𝓻𝓮𝓾𝔁. 𝓒𝓮 𝓼𝓸𝓷𝓽 𝓬𝓮𝓼 𝓹𝓮𝓽𝓲𝓽𝓼 𝓭𝓮́𝓽𝓪𝓲𝓵𝓼, 𝓶𝓲𝓼 𝓫𝓸𝓾𝓽 𝓪̀ 𝓫𝓸𝓾𝓽, 𝓺𝓾𝓲 𝓶𝓮 𝓻𝓪𝓹𝓹𝓮𝓵𝓵𝓮𝓷𝓽 𝓪̀ 𝓺𝓾𝓮𝓵 𝓹𝓸𝓲𝓷𝓽 𝓳𝓮 𝓼𝓾𝓲𝓼 𝓬𝓱𝓪𝓷𝓬𝓮𝓾𝔁 𝓭𝓮 𝓽’𝓪𝓿𝓸𝓲𝓻. 𝓔𝓽 𝓹𝓵𝓾𝓼 𝓵𝓮 𝓽𝓮𝓶𝓹𝓼 𝓹𝓪𝓼𝓼𝓮, 𝓹𝓵𝓾𝓼 𝓳𝓮 𝓻𝓮́𝓪𝓵𝓲𝓼𝓮 𝓪̀ 𝓺𝓾𝓮𝓵 𝓹𝓸𝓲𝓷𝓽 𝓽𝓾 𝓮𝓼 𝓾𝓷𝓮 𝓹𝓮𝓻𝓼𝓸𝓷𝓷𝓮 𝓮𝔁𝓬𝓮𝓹𝓽𝓲𝓸𝓷𝓷𝓮𝓵𝓵𝓮. 𝓤𝓷𝓮 𝓹𝓮𝓻𝓼𝓸𝓷𝓷𝓮 𝓬𝓸𝓶𝓶𝓮 𝓲𝓵 𝓮𝓷 𝓮𝔁𝓲𝓼𝓽𝓮 𝓹𝓮𝓾, 𝓾𝓷𝓮 𝓹𝓮𝓻𝓼𝓸𝓷𝓷𝓮 𝓹𝓻𝓮́𝓬𝓲𝓮𝓾𝓼𝓮, 𝓺𝓾𝓮 𝓳𝓮 𝓿𝓮𝓾𝔁 𝓹𝓻𝓸𝓽𝓮́𝓰𝓮𝓻 𝓮𝓽 𝓰𝓪𝓻𝓭𝓮𝓻 𝓪𝓾𝓹𝓻𝓮̀𝓼 𝓭𝓮 𝓶𝓸𝓲 𝓪𝓾𝓼𝓼𝓲 𝓵𝓸𝓷𝓰𝓽𝓮𝓶𝓹𝓼 𝓺𝓾𝓮 𝓵𝓪 𝓿𝓲𝓮 𝓷𝓸𝓾𝓼 𝓵’𝓪𝓬𝓬𝓸𝓻𝓭𝓮𝓻𝓪. 𝓘𝓵 𝔂 𝓪 𝓺𝓾𝓮𝓵𝓺𝓾𝓮 𝓬𝓱𝓸𝓼𝓮 𝓭𝓪𝓷𝓼 𝓷𝓸𝓽𝓻𝓮 𝓻𝓮𝓵𝓪𝓽𝓲𝓸𝓷, 𝓺𝓾𝓮𝓵𝓺𝓾𝓮 𝓬𝓱𝓸𝓼𝓮 𝓺𝓾𝓮 𝓳𝓮 𝓷’𝓪𝓻𝓻𝓲𝓿𝓮 𝓹𝓪𝓼 𝓪̀ 𝓮𝔁𝓹𝓵𝓲𝓺𝓾𝓮𝓻 𝓪𝓿𝓮𝓬 𝓭𝓮𝓼 𝓶𝓸𝓽𝓼. 𝓒’𝓮𝓼𝓽 𝓬𝓮𝓽𝓽𝓮 𝓪𝓶𝓸𝓾𝓻, 𝓬𝓮𝓽𝓽𝓮 𝓬𝓸𝓷𝓷𝓮𝔁𝓲𝓸𝓷 𝓺𝓾𝓲 𝓯𝓪𝓲𝓽 𝓺𝓾𝓮 𝓽𝓸𝓾𝓽 𝓮𝓼𝓽 𝓹𝓵𝓾𝓼 𝓫𝓮𝓪𝓾, 𝓹𝓵𝓾𝓼 𝓯𝓪𝓬𝓲𝓵𝓮 𝓺𝓾𝓪𝓷𝓭 𝓸𝓷 𝓮𝓼𝓽 𝓮𝓷𝓼𝓮𝓶𝓫𝓵𝓮. 𝓒𝓮 𝓷’𝓮𝓼𝓽 𝓹𝓪𝓼 𝓺𝓾’𝓾𝓷𝓲𝓺𝓾𝓮𝓶𝓮𝓷𝓽 𝓭𝓮 𝓵’𝓪𝓶𝓸𝓾𝓻, 𝓬’𝓮𝓼𝓽 𝓾𝓷 𝓶𝓮́𝓵𝓪𝓷𝓰𝓮 𝓭𝓮 𝓬𝓸𝓷𝓯𝓲𝓪𝓷𝓬𝓮, 𝓭𝓮 𝓵𝓸𝔂𝓪𝓾𝓽𝓮́ 𝓮𝓽 𝓭𝓮 𝓬𝓸𝓶𝓹𝓵𝓲𝓬𝓲𝓽𝓮́. 𝓐𝓿𝓸𝓲𝓻 𝓵𝓮 𝓼𝓮𝓷𝓽𝓲𝓶𝓮𝓷𝓽 𝓲𝓷𝓬𝓻𝓸𝔂𝓪𝓫𝓵𝓮 𝓭𝓮 𝓼𝓪𝓿𝓸𝓲𝓻 𝓺𝓾𝓮, 𝓺𝓾𝓸𝓲 𝓺𝓾’𝓲𝓵 𝓪𝓻𝓻𝓲𝓿𝓮, 𝓳𝓮 𝓹𝓮𝓾𝔁 𝓮̂𝓽𝓻𝓮 𝓶𝓸𝓲 𝓶𝓮̂𝓶𝓮 𝓪𝓿𝓮𝓬 𝓽𝓸𝓲, 𝓬𝓸𝓶𝓶𝓮 𝓽𝓾 𝓹𝓮𝓾𝔁 𝓵’𝓮̂𝓽𝓻𝓮 𝓪𝓿𝓮𝓬 𝓶𝓸𝓲, 𝓶𝓮 𝓯𝓪𝓲𝓼 𝓹𝓮𝓷𝓼𝓮𝓻 𝓺𝓾𝓮 𝓳’𝓪𝓲 𝓿𝓻𝓪𝓲𝓶𝓮𝓷𝓽 𝓽𝓻𝓸𝓾𝓿𝓮𝓻 𝓵𝓪 𝓫𝓸𝓷𝓷𝓮. 𝓐𝓾𝓳𝓸𝓾𝓻𝓭’𝓱𝓾𝓲, 𝓳’𝓪𝓲 𝓾𝓷𝓮 𝓬𝓸𝓹𝓲𝓷𝓮 𝓺𝓾𝓮 𝓳’𝓪𝓲𝓶𝓮 𝓭𝓮 𝓽𝓸𝓾𝓽 𝓶𝓸𝓷 𝓬œ𝓾𝓻. 𝓔𝓽 𝓬𝓻𝓸𝓲𝓼-𝓶𝓸𝓲, 𝓳’𝓪𝓲 𝓻𝓮̂𝓿𝓮́ 𝓭’𝓪𝓲𝓶𝓮𝓻 𝓺𝓾𝓮𝓵𝓺𝓾’𝓾𝓷 𝓪𝓾𝓼𝓼𝓲 𝓯𝓸𝓻𝓽 𝓺𝓾𝓮 𝓳𝓮 𝓽’𝓪𝓲𝓶𝓮, 𝓭𝓮 𝓹𝓸𝓾𝓿𝓸𝓲𝓻 𝓹𝓪𝓻𝓽𝓪𝓰𝓮𝓻 𝓪𝓾𝓽𝓪𝓷𝓽 𝓪𝓿𝓮𝓬 𝓾𝓷𝓮 𝓹𝓮𝓻𝓼𝓸𝓷𝓷𝓮 𝓺𝓾𝓲 𝓬𝓸𝓶𝓹𝓽𝓮 𝓻𝓮́𝓮𝓵𝓵𝓮𝓶𝓮𝓷𝓽 𝓹𝓸𝓾𝓻 𝓶𝓸𝓲. 𝓙’𝓪𝓲 𝓻𝓮̂𝓿𝓮́ 𝓭𝓮 𝓬𝓮𝓽𝓽𝓮 𝓻𝓮𝓵𝓪𝓽𝓲𝓸𝓷 𝓸𝓾̀ 𝓽𝓸𝓾𝓽 𝓮𝓼𝓽 𝓯𝓵𝓾𝓲𝓭𝓮, 𝓸𝓾̀ 𝓽𝓸𝓾𝓽 𝓮𝓼𝓽 𝓻𝓮́𝓮𝓵, 𝓸𝓾̀ 𝓳𝓮 𝓹𝓮𝓾𝔁 𝓮̂𝓽𝓻𝓮 𝓽𝓸𝓽𝓪𝓵𝓮𝓶𝓮𝓷𝓽 𝓶𝓸𝓲 𝓶𝓮̂𝓶𝓮 𝓼𝓪𝓷𝓼 𝓪𝓿𝓸𝓲𝓻 𝓹𝓮𝓾𝓻 𝓭𝓮 𝓷𝓮 𝓹𝓪𝓼 𝓮̂𝓽𝓻𝓮 𝓪̀ 𝓵𝓪 𝓱𝓪𝓾𝓽𝓮𝓾𝓻. 𝓔𝓽 𝓶𝓪𝓲𝓷𝓽𝓮𝓷𝓪𝓷𝓽 𝓺𝓾𝓮 𝓳𝓮 𝓽’𝓪𝓲 𝓽𝓻𝓸𝓾𝓿𝓮́𝓮, 𝓳𝓮 𝓷’𝓪𝓲 𝓹𝓸𝓾𝓻 𝓻𝓲𝓮𝓷 𝓪𝓾 𝓶𝓸𝓷𝓭𝓮, 𝓮𝓷𝓿𝓲𝓮 𝓭𝓮 𝓽𝓮 𝓹𝓮𝓻𝓭𝓻𝓮, 𝓳𝓪𝓶𝓪𝓲𝓼. 𝓙𝓮 𝓷𝓮 𝓿𝓮𝓾𝔁 𝓹𝓪𝓼 𝓺𝓾𝓮 𝓬𝓮𝓽 𝓪𝓶𝓸𝓾𝓻 𝓼’𝓪𝓻𝓻𝓮̂𝓽𝓮, 𝓳𝓮 𝓿𝓮𝓾𝔁 𝓺𝓾’𝓲𝓵 𝓬𝓸𝓷𝓽𝓲𝓷𝓾𝓮 𝓮𝓷𝓬𝓸𝓻𝓮 𝓮𝓽 𝓮𝓷𝓬𝓸𝓻𝓮, 𝓺𝓾’𝓲𝓵 𝓰𝓻𝓪𝓷𝓭𝓲𝓼𝓼𝓮 𝓪𝓿𝓮𝓬 𝓷𝓸𝓾𝓼, 𝓺𝓾’𝓲𝓵 𝓮́𝓿𝓸𝓵𝓾𝓮 𝓪̀ 𝓶𝓮𝓼𝓾𝓻𝓮 𝓺𝓾𝓮 𝓵’𝓸𝓷 𝓪𝓿𝓪𝓷𝓬𝓮 𝓭𝓪𝓷𝓼 𝓵𝓪 𝓿𝓲𝓮. 𝓣𝓾 𝓮𝓼 𝓾𝓷𝓮 𝓯𝓲𝓵𝓵𝓮 𝓮𝓷 𝓸𝓻, 𝓮𝓽 𝓳𝓮 𝓽𝓮 𝓵𝓮 𝓻𝓪𝓹𝓹𝓮𝓵𝓵𝓮𝓻𝓪𝓲 𝓪𝓾𝓽𝓪𝓷𝓽 𝓭𝓮 𝓯𝓸𝓲𝓼 𝓺𝓾’𝓲𝓵 𝓵𝓮 𝓯𝓪𝓾𝓭𝓻𝓪, 𝓳𝓾𝓼𝓺𝓾’𝓪̀ 𝓬𝓮 𝓺𝓾𝓮 𝓽𝓾 𝓮𝓷 𝓼𝓸𝓲𝓼 𝓬𝓸𝓷𝓿𝓪𝓲𝓷𝓬𝓾𝓮 𝓪̀ 1000000000000 %. 𝓟𝓪𝓻𝓬𝓮 𝓺𝓾𝓮 𝓳𝓮 𝓿𝓮𝓾𝔁 𝓺𝓾𝓮 𝓽𝓾 𝓼𝓪𝓬𝓱𝓮𝓼 𝓪̀ 𝓺𝓾𝓮𝓵 𝓹𝓸𝓲𝓷𝓽 𝓽𝓾 𝓮𝓼 𝓾𝓷𝓮 𝓯𝓲𝓵𝓵𝓮 𝓲𝓷𝓬𝓻𝓸𝔂𝓪𝓫𝓵𝓮. 𝓟𝓪𝓻𝓯𝓸𝓲𝓼, 𝓳𝓮 𝓶𝓮 𝓭𝓮𝓶𝓪𝓷𝓭𝓮 𝓬𝓸𝓶𝓶𝓮𝓷𝓽 𝓪𝓾𝓻𝓪𝓲𝓽 𝓮́𝓽𝓮́ 𝓶𝓪 𝓿𝓲𝓮 𝓼𝓲 𝓳𝓮 𝓷𝓮 𝓽𝓾 𝓷’𝓮́𝓽𝓪𝓲𝓼 𝓹𝓪𝓼 𝓵𝓪̀. 𝓔𝓽 𝓪̀ 𝓬𝓱𝓪𝓺𝓾𝓮 𝓯𝓸𝓲𝓼, 𝓵𝓪 𝓶𝓮̂𝓶𝓮 𝓻𝓮́𝓹𝓸𝓷𝓼𝓮 𝓶𝓮 𝓿𝓲𝓮𝓷𝓽 𝓭𝓮 𝓶𝓪𝓷𝓲𝓮̀𝓻𝓮 𝓮́𝓿𝓲𝓭𝓮𝓷𝓽𝓮, 𝓮𝓵𝓵𝓮 𝓪𝓾𝓻𝓪𝓲𝓽 𝓮́𝓽𝓮́ 𝓫𝓲𝓮𝓷 𝓹𝓵𝓾𝓼 𝓽𝓻𝓲𝓼𝓽𝓮, 𝓫𝓲𝓮𝓷 𝓶𝓸𝓲𝓷𝓼 𝓲𝓷𝓽𝓮́𝓻𝓮𝓼𝓼𝓪𝓷𝓽𝓮. 𝓙𝓮 𝓼𝓮𝓻𝓪𝓲𝓼 𝓹𝓪𝓼𝓼𝓮́ 𝓪̀ 𝓬𝓸̂𝓽𝓮́ 𝓭𝓮 𝓽𝓸𝓾𝓽𝓮𝓼 𝓬𝓮𝓼 𝓬𝓱𝓸𝓼𝓮𝓼, 𝓭𝓮 𝓽𝓸𝓾𝓽 𝓬𝓮𝓽 𝓪𝓶𝓸𝓾𝓻 𝓺𝓾𝓮 𝓵’𝓸𝓷 𝓿𝓲𝓮. 𝓡𝓲𝓮𝓷 𝓺𝓾𝓮 𝓭’𝔂 𝓹𝓮𝓷𝓼𝓮𝓻, 𝓬̧𝓪 𝓶𝓮 𝓯𝓪𝓲𝓽 𝓫𝓲𝔃𝓪𝓻𝓻𝓮, 𝓹𝓪𝓻𝓬𝓮 𝓺𝓾’𝓪𝓾𝓳𝓸𝓾𝓻𝓭’𝓱𝓾𝓲, 𝓽𝓾 𝓮𝓼 𝓭𝓮𝓿𝓮𝓷𝓾𝓮 𝓾𝓷𝓮 𝓹𝓪𝓻𝓽𝓲𝓮 𝓭𝓮 𝓶𝓸𝓲. 𝓔𝓽 𝓲𝓶𝓪𝓰𝓲𝓷𝓮𝓻 𝓾𝓷𝓮 𝓿𝓲𝓮 𝓼𝓪𝓷𝓼 𝓶𝓸𝓷 𝓪𝓶𝓸𝓾𝓻, 𝓷𝓮 𝓶𝓮 𝓼𝓮𝓶𝓫𝓵𝓮 𝓽𝓸𝓾𝓽 𝓼𝓲𝓶𝓹𝓵𝓮𝓶𝓮𝓷𝓽 𝓲𝓶𝓹𝓸𝓼𝓼𝓲𝓫𝓵𝓮. 𝓘𝓵 𝔂 𝓪 𝓽𝓮𝓵𝓵𝓮𝓶𝓮𝓷𝓽 𝓭𝓮 𝓬𝓱𝓸𝓼𝓮𝓼 𝓺𝓾𝓮 𝓳’𝓪𝓲𝓶𝓮 𝓬𝓱𝓮𝔃 𝓽𝓸𝓲, 𝓭𝓮𝓼 𝓬𝓱𝓸𝓼𝓮𝓼 𝓹𝓪𝓻𝓯𝓸𝓲𝓼 𝓲𝓷𝓼𝓲𝓰𝓷𝓲𝓯𝓲𝓪𝓷𝓽𝓮𝓼 𝓪𝓾𝔁 𝔂𝓮𝓾𝔁 𝓭𝓮𝓼 𝓪𝓾𝓽𝓻𝓮𝓼, 𝓶𝓪𝓲𝓼 𝓺𝓾𝓲, 𝓹𝓸𝓾𝓻 𝓶𝓸𝓲, 𝓯𝓸𝓷𝓽 𝓾𝓷𝓮 𝓭𝓲𝓯𝓯𝓮́𝓻𝓮𝓷𝓬𝓮 𝓯𝓸𝓵𝓵𝓮. 𝓣𝓪 𝓯𝓪𝓬̧𝓸𝓷 𝓭𝓮 𝓶𝓮 𝓻𝓮𝓰𝓪𝓻𝓭𝓮𝓻, 𝓬𝓮 𝓹𝓮𝓽𝓲𝓽 𝓼𝓸𝓾𝓻𝓲𝓻𝓮 𝓺𝓾𝓲 𝓶𝓮 𝓯𝓪𝓲𝓼 𝓪 𝓬𝓱𝓪𝓺𝓾𝓮 𝓯𝓸𝓲𝓼, 𝓽𝓸𝓶𝓫𝓮𝓻 𝓮𝓷𝓬𝓸𝓻𝓮 𝓹𝓵𝓾𝓼 𝓪𝓶𝓸𝓾𝓻𝓮𝓾𝔁, 𝓵𝓪 𝓶𝓪𝓷𝓲𝓮̀𝓻𝓮 𝓭𝓸𝓷𝓽 𝓽𝓾 𝓽𝓻𝓲𝓹𝓸𝓽𝓮 𝓶𝓮𝓼 𝓬𝓱𝓮𝓿𝓮𝓾𝔁. 𝓣𝓸𝓾𝓼 𝓬𝓮𝓼 𝓹𝓮𝓽𝓲𝓽𝓼 𝓭𝓮́𝓽𝓪𝓲𝓵𝓼 𝓺𝓾𝓲, 𝓶𝓲𝓼 𝓫𝓸𝓾𝓽 𝓪̀ 𝓫𝓸𝓾𝓽, 𝓶𝓮 𝓯𝓸𝓷𝓽 𝓬𝓻𝓪𝓺𝓾𝓮𝓻 𝓾𝓷 𝓹𝓮𝓾 𝓹𝓵𝓾𝓼 𝓬𝓱𝓪𝓺𝓾𝓮 𝓳𝓸𝓾𝓻. 𝓣𝓸𝓾𝓽 𝓷’𝓮𝓼𝓽 𝓹𝓪𝓼 𝓽𝓸𝓾𝓳𝓸𝓾𝓻𝓼 𝓹𝓪𝓻𝓯𝓪𝓲𝓽. 𝓓𝓮𝓼 𝓯𝓸𝓲𝓼, 𝓽’𝓮𝓼 𝓽𝓻𝓲𝓼𝓽𝓮. 𝓓𝓮𝓼 𝓯𝓸𝓲𝓼, 𝓶𝓸𝓲 𝓪𝓾𝓼𝓼𝓲. 𝓞𝓷 𝓪 𝓮𝓾 𝓭𝓮𝓼 𝓹𝓻𝓸𝓫𝓵𝓮̀𝓶𝓮𝓼, 𝓸𝓷 𝓮𝓷 𝓪 𝓮𝓷𝓬𝓸𝓻𝓮, 𝓮𝓽 𝓸𝓷 𝓮𝓷 𝓪𝓾𝓻𝓪 𝓼𝓾̂𝓻𝓮𝓶𝓮𝓷𝓽 𝓭’𝓪𝓾𝓽𝓻𝓮𝓼 𝓭𝓪𝓷𝓼 𝓵𝓮 𝓯𝓾𝓽𝓾𝓻. 𝓟𝓪𝓻𝓬𝓮 𝓺𝓾𝓮 𝓬’𝓮𝓼𝓽 𝓬̧𝓪 𝓪𝓾𝓼𝓼𝓲, 𝓾𝓷𝓮 𝓻𝓮𝓵𝓪𝓽𝓲𝓸𝓷. 𝓒𝓮 𝓷’𝓮𝓼𝓽 𝓹𝓪𝓼 𝓾𝓷𝓮 𝓵𝓸𝓷𝓰𝓾𝓮 𝓱𝓲𝓼𝓽𝓸𝓲𝓻𝓮 𝓽𝓻𝓪𝓷𝓺𝓾𝓲𝓵𝓵𝓮. 𝓘𝓵 𝔂 𝓪𝓾𝓻𝓪 𝓭𝓮𝓼 𝓹𝓻𝓸𝓫𝓵𝓮̀𝓶𝓮𝓼, 𝓭𝓮𝓼 𝓲𝓷𝓬𝓸𝓶𝓹𝓻𝓮́𝓱𝓮𝓷𝓼𝓲𝓸𝓷𝓼, 𝓭𝓮𝓼 𝓶𝓸𝓶𝓮𝓷𝓽𝓼 𝓭𝓮 𝓭𝓸𝓾𝓽𝓮. 𝓜𝓪𝓲𝓼 𝓹𝓮𝓾 𝓲𝓶𝓹𝓸𝓻𝓽𝓮 𝓵𝓮𝓼 𝓮́𝓹𝓻𝓮𝓾𝓿𝓮𝓼 𝓺𝓾𝓮 𝓵𝓪 𝓿𝓲𝓮 𝓶𝓮𝓽𝓽𝓻𝓪 𝓼𝓾𝓻 𝓷𝓸𝓽𝓻𝓮 𝓬𝓱𝓮𝓶𝓲𝓷, 𝓳𝓮 𝓼𝓾𝓲𝓼 𝓬𝓮𝓻𝓽𝓪𝓲𝓷 𝓺𝓾’𝓸𝓷 𝓵𝓮𝓼 𝓽𝓻𝓪𝓿𝓮𝓻𝓼𝓮𝓻𝓪 𝓮𝓷𝓼𝓮𝓶𝓫𝓵𝓮. 𝓟𝓪𝓻𝓬𝓮 𝓺𝓾𝓮 𝓳𝓮 𝓬𝓻𝓸𝓲𝓼 𝓮𝓷 𝓷𝓸𝓾𝓼. 𝓟𝓪𝓻𝓬𝓮 𝓺𝓾𝓮 𝓳𝓮 𝓼𝓪𝓲𝓼 𝓺𝓾’𝓪𝓹𝓻𝓮̀𝓼 𝓬𝓱𝓪𝓺𝓾𝓮 𝓽𝓮𝓶𝓹𝓮̂𝓽𝓮, 𝓲𝓵 𝔂 𝓪 𝓽𝓸𝓾𝓳𝓸𝓾𝓻𝓼 𝓵𝓮 𝓫𝓮𝓪𝓾 𝓽𝓮𝓶𝓹𝓼. 𝓞𝓷 𝓼𝓾𝓻𝓶𝓸𝓷𝓽𝓮𝓻𝓪 𝓽𝓸𝓾𝓽, 𝓮𝓽 𝓸𝓷 𝓮𝓷 𝓻𝓮𝓼𝓼𝓸𝓻𝓽𝓲𝓻𝓪 𝓮𝓷𝓬𝓸𝓻𝓮 𝓹𝓵𝓾𝓼 𝓯𝓸𝓻𝓽𝓼, 𝓮𝓷𝓬𝓸𝓻𝓮 𝓹𝓵𝓾𝓼 𝓼𝓸𝓾𝓭𝓮́𝓼 𝓮𝓽 𝓼𝓾𝓻𝓽𝓸𝓾𝓽, 𝓮𝓷𝓬𝓸𝓻𝓮 𝓹𝓵𝓾𝓼 𝓪𝓶𝓸𝓾𝓻𝓮𝓾𝔁. 𝓘𝓵 𝔂 𝓪 𝓺𝓾𝓮𝓵𝓺𝓾𝓮 𝓬𝓱𝓸𝓼𝓮 𝓺𝓾𝓮 𝓳𝓮 𝓷’𝓪𝓲 𝓹𝓮𝓾𝓽-𝓮̂𝓽𝓻𝓮 𝓳𝓪𝓶𝓪𝓲𝓼 𝓹𝓻𝓲𝓼 𝓵𝓮 𝓽𝓮𝓶𝓹𝓼 𝓭𝓮 𝓽𝓮 𝓭𝓲𝓻𝓮 𝓶𝓪𝓲𝓼 𝓶𝓮𝓻𝓬𝓲. 𝓜𝓮𝓻𝓬𝓲 𝓭’𝓮̂𝓽𝓻𝓮 𝓵𝓪̀, 𝓶𝓲𝓵𝓵𝓮 𝓯𝓸𝓲𝓼 𝓶𝓮𝓻𝓬𝓲 𝓭’𝓮̂𝓽𝓻𝓮 𝓬𝓸𝓶𝓶𝓮 𝓽𝓾 𝓮𝓼. 𝓜𝓮𝓻𝓬𝓲 𝓹𝓸𝓾𝓻 𝓽𝓸𝓾𝓽 𝓬𝓮 𝓺𝓾𝓮 𝓽𝓾 𝓯𝓪𝓲𝓼 𝓼𝓪𝓷𝓼 𝓶𝓮̂𝓶𝓮 𝓽’𝓮𝓷 𝓻𝓮𝓷𝓭𝓻𝓮 𝓬𝓸𝓶𝓹𝓽𝓮, 𝓹𝓸𝓾𝓻 𝓵𝓪 𝓳𝓸𝓲𝓮 𝓮𝓽 𝓵𝓮 𝓫𝓸𝓷𝓱𝓮𝓾𝓻 𝓺𝓾𝓮 𝓽𝓾 𝓪𝓹𝓹𝓸𝓻𝓽𝓮𝓼 𝓭𝓪𝓷𝓼 𝓶𝓪 𝓿𝓲𝓮, 𝓹𝓸𝓾𝓻 𝓵’𝓪𝓶𝓸𝓾𝓻 𝓺𝓾𝓮 𝓽𝓾 𝓶𝓮 𝓭𝓸𝓷𝓷𝓮𝓼 𝓮𝓽 𝓺𝓾𝓲 𝓶𝓮 𝓯𝓪𝓲𝓽 𝓶𝓮 𝓼𝓮𝓷𝓽𝓲𝓻 𝓪𝓲𝓶𝓮́. 𝓜𝓮𝓻𝓬𝓲 𝓭𝓮 𝓶’𝓪𝓬𝓬𝓮𝓹𝓽𝓮𝓻 𝓬𝓸𝓶𝓶𝓮 𝓳𝓮 𝓼𝓾𝓲𝓼, 𝓪𝓿𝓮𝓬 𝓶𝓮𝓼 𝓺𝓾𝓪𝓵𝓲𝓽𝓮́𝓼 𝓮𝓽 𝓶𝓮𝓼 𝓭𝓮́𝓯𝓪𝓾𝓽𝓼, 𝓼𝓪𝓷𝓼 𝓳𝓪𝓶𝓪𝓲𝓼 𝓶𝓮 𝓳𝓾𝓰𝓮𝓻. 𝓙𝓾𝓼𝓽𝓮 𝓶𝓮𝓻𝓬𝓲 𝓭’𝓮𝔁𝓲𝓼𝓽𝓮𝓻. 𝓐𝓵𝓸𝓻𝓼 𝓪𝓾𝓳𝓸𝓾𝓻𝓭’𝓱𝓾𝓲, 𝓳𝓮 𝓿𝓮𝓾𝔁 𝓳𝓾𝓼𝓽𝓮 𝓹𝓻𝓸𝓯𝓲𝓽𝓮𝓻 𝓭𝓮 𝓬𝓮 𝓶𝓸𝓶𝓮𝓷𝓽 𝓹𝓸𝓾𝓻 𝓽𝓮 𝓼𝓸𝓾𝓱𝓪𝓲𝓽𝓮𝓻 𝓾𝓷𝓮 𝓶𝓮𝓻𝓿𝓮𝓲𝓵𝓵𝓮𝓾𝓼𝓮 𝓢𝓪𝓲𝓷𝓽-𝓥𝓪𝓵𝓮𝓷𝓽𝓲𝓷. 𝓟𝓪𝓼 𝓳𝓾𝓼𝓽𝓮 𝓹𝓪𝓻𝓬𝓮 𝓺𝓾𝓮 𝓬’𝓮𝓼𝓽 𝓾𝓷𝓮 𝓭𝓪𝓽𝓮 𝓺𝓾’𝓸𝓷 𝓬𝓮́𝓵𝓮̀𝓫𝓻𝓮 𝓾𝓷𝓮 𝓯𝓸𝓲𝓼 𝓹𝓪𝓻 𝓪𝓷, 𝓶𝓪𝓲𝓼 𝓹𝓪𝓻𝓬𝓮 𝓺𝓾𝓮 𝓬’𝓮𝓼𝓽 𝓵’𝓸𝓬𝓬𝓪𝓼𝓲𝓸𝓷 𝓹𝓪𝓻𝓯𝓪𝓲𝓽𝓮 𝓹𝓸𝓾𝓻 𝓽𝓮 𝓻𝓪𝓹𝓹𝓮𝓵𝓮𝓻 𝓺𝓾𝓮 𝓽𝓾 𝓮𝓼 𝓵𝓪 𝓯𝓮𝓶𝓶𝓮 𝓺𝓾’𝓲𝓵 𝓶𝓮 𝓯𝓪𝓾𝓽. 𝓒𝓮𝓵𝓵𝓮 𝓺𝓾𝓲 𝓶’𝓪𝓲𝓭𝓮 𝓪̀ 𝓭𝓮𝓿𝓮𝓷𝓲𝓻 𝓵’𝓱𝓸𝓶𝓶𝓮 𝓺𝓾𝓮 𝓳’𝓪𝓲 𝓮𝓷𝓿𝓲𝓮 𝓭’𝓮̂𝓽𝓻𝓮, 𝓬𝓮𝓵𝓵𝓮 𝓺𝓾𝓲, 𝓼𝓪𝓷𝓼 𝓶𝓮̂𝓶𝓮 𝓼’𝓮𝓷 𝓻𝓮𝓷𝓭𝓻𝓮 𝓬𝓸𝓶𝓹𝓽𝓮, 𝓲𝓵𝓵𝓾𝓶𝓲𝓷𝓮 𝓶𝓮𝓼 𝓳𝓸𝓾𝓻𝓷𝓮́𝓮𝓼 𝓮𝓽 𝓻𝓮𝓷𝓭 𝓶𝓸𝓷 𝓶𝓸𝓷𝓭𝓮 𝓶𝓮𝓲𝓵𝓵𝓮𝓾𝓻. \n Ton homme qui t’aime. ❤️`;
+                                    textDiv.appendChild(textContainer);
+
+                                    // ----------- Ajout du bouton Suivant avec animation -----------
+                                    const nextBtn = document.createElement('button');
+                                    nextBtn.textContent = 'Suivant';
+                                    nextBtn.style.margin = '40px auto 0 auto';
+                                    nextBtn.style.display = 'block';
+                                    nextBtn.style.padding = '16px 48px';
+                                    nextBtn.style.background = 'linear-gradient(90deg, #007BFF 0%, #00c6ff 100%)';
+                                    nextBtn.style.color = '#fff';
+                                    nextBtn.style.fontWeight = 'bold';
+                                    nextBtn.style.fontSize = '1.3rem';
+                                    nextBtn.style.border = 'none';
+                                    nextBtn.style.borderRadius = '40px';
+                                    nextBtn.style.cursor = 'pointer';
+                                    nextBtn.style.boxShadow = '0 8px 32px 0 rgba(0,123,255,0.25)';
+                                    nextBtn.style.transition = 'background 0.4s, transform 0.2s cubic-bezier(.68,-0.55,.27,1.55), box-shadow 0.3s, letter-spacing 0.3s, filter 0.3s';
+
+                                    // Animation au survol : effet néon + rebond + glow
+                                    nextBtn.addEventListener('mouseover', () => {
+                                        nextBtn.style.background = 'linear-gradient(90deg, #00c6ff 0%, #007BFF 100%)';
+                                        nextBtn.style.transform = 'scale(1.08) rotate(-1deg)';
+                                        nextBtn.style.boxShadow = '0 0 24px 8px #00c6ff, 0 8px 32px 0 rgba(0,123,255,0.35)';
+                                        nextBtn.style.letterSpacing = '2px';
+                                        nextBtn.style.filter = 'brightness(1.15) drop-shadow(0 0 8px #00c6ff)';
+                                    });
+                                    nextBtn.addEventListener('mouseout', () => {
+                                        nextBtn.style.background = 'linear-gradient(90deg, #007BFF 0%, #00c6ff 100%)';
+                                        nextBtn.style.transform = 'scale(1) rotate(0)';
+                                        nextBtn.style.boxShadow = '0 8px 32px 0 rgba(0,123,255,0.25)';
+                                        nextBtn.style.letterSpacing = '0';
+                                        nextBtn.style.filter = 'none';
+                                    });
+                                    // Animation au clic : effet "liquide" + flash
+                                    nextBtn.addEventListener('mousedown', () => {
+                                        nextBtn.style.transform = 'scale(0.95)';
+                                        nextBtn.style.filter = 'brightness(1.4) drop-shadow(0 0 16px #00c6ff)';
+                                    });
+                                    nextBtn.addEventListener('mouseup', () => {
+                                        nextBtn.style.transform = 'scale(1.08)';
+                                        nextBtn.style.filter = 'brightness(1.15) drop-shadow(0 0 8px #00c6ff)';
+                                    });
+
+                                    // Effet "ripple" liquide sur le bouton au clic
+                                    nextBtn.addEventListener('click', (e) => {
+                                        const ripple = document.createElement('span');
+                                        ripple.style.position = 'absolute';
+                                        ripple.style.borderRadius = '50%';
+                                        ripple.style.transform = 'scale(0)';
+                                        ripple.style.background = 'rgba(0,198,255,0.4)';
+                                        ripple.style.pointerEvents = 'none';
+                                        ripple.style.width = ripple.style.height = Math.max(nextBtn.offsetWidth, nextBtn.offsetHeight) + 'px';
+                                        ripple.style.left = (e.offsetX - nextBtn.offsetWidth / 2) + 'px';
+                                        ripple.style.top = (e.offsetY - nextBtn.offsetHeight / 2) + 'px';
+                                        ripple.style.transition = 'transform 0.6s cubic-bezier(.68,-0.55,.27,1.55), opacity 0.6s';
+                                        nextBtn.style.position = 'relative';
+                                        nextBtn.appendChild(ripple);
+                                        setTimeout(() => {
+                                            ripple.style.transform = 'scale(2.5)';
+                                            ripple.style.opacity = '0';
+                                        }, 10);
+                                        setTimeout(() => {
+                                            ripple.remove();
+                                        }, 700);
+
+                                        // Affiche une nouvelle page avec texte animé lettre par lettre
+                                        setTimeout(() => {
+                                            document.body.innerHTML = `
+                                                <div id="newPageText" style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;background:black;">
+                                                    <span style="color:white;font-size:2rem;text-align:center;max-width:700px;line-height:1.5;" id="typewriter"></span>
+                                                    <div id="btnRow" style="margin-top:40px;display:flex;gap:30px;justify-content:center;"></div>
+                                                </div>
+                                            `;
+                                            const msg = "Tu sais dans cette note j'ai écrit autre chose tu veux voir ce qu'il y a écrit ?";
+                                            const typewriter = document.getElementById('typewriter');
+                                            let i = 0;
+                                            function typeLetter() {
+                                                if (i < msg.length) {
+                                                    typewriter.textContent += msg[i];
+                                                    i++;
+                                                    setTimeout(typeLetter, 40);
+                                                }
+                                            }
+                                            typeLetter();
+
+                                            // Crée les boutons Oui et Non
+                                            const btnRow = document.getElementById('btnRow');
+                                            const btnOui = document.createElement('button');
+                                            btnOui.textContent = 'Oui';
+                                            btnOui.style.padding = '14px 40px';
+                                            btnOui.style.background = 'linear-gradient(90deg, #28a745 0%, #00c6ff 100%)';
+                                            btnOui.style.color = '#fff';
+                                            btnOui.style.fontWeight = 'bold';
+                                            btnOui.style.fontSize = '1.2rem';
+                                            btnOui.style.border = 'none';
+                                            btnOui.style.borderRadius = '40px';
+                                            btnOui.style.cursor = 'pointer';
+                                            btnOui.style.boxShadow = '0 8px 32px 0 rgba(40,167,69,0.18)';
+                                            btnOui.style.transition = 'background 0.4s, transform 0.2s cubic-bezier(.68,-0.55,.27,1.55), box-shadow 0.3s, letter-spacing 0.3s, filter 0.3s';
+
+                                            btnOui.addEventListener('mouseover', () => {
+                                                btnOui.style.background = 'linear-gradient(90deg, #00c6ff 0%, #28a745 100%)';
+                                                btnOui.style.transform = 'scale(1.08) rotate(-1deg)';
+                                                btnOui.style.boxShadow = '0 0 24px 8px #28a745, 0 8px 32px 0 rgba(40,167,69,0.25)';
+                                                btnOui.style.letterSpacing = '2px';
+                                                btnOui.style.filter = 'brightness(1.15) drop-shadow(0 0 8px #28a745)';
+                                            });
+                                            btnOui.addEventListener('mouseout', () => {
+                                                btnOui.style.background = 'linear-gradient(90deg, #28a745 0%, #00c6ff 100%)';
+                                                btnOui.style.transform = 'scale(1) rotate(0)';
+                                                btnOui.style.boxShadow = '0 8px 32px 0 rgba(40,167,69,0.18)';
+                                                btnOui.style.letterSpacing = '0';
+                                                btnOui.style.filter = 'none';
+                                            });
+                                            btnOui.addEventListener('mousedown', () => {
+                                                btnOui.style.transform = 'scale(0.95)';
+                                                btnOui.style.filter = 'brightness(1.4) drop-shadow(0 0 16px #28a745)';
+                                            });
+                                            btnOui.addEventListener('mouseup', () => {
+                                                btnOui.style.transform = 'scale(1.08)';
+                                                btnOui.style.filter = 'brightness(1.15) drop-shadow(0 0 8px #28a745)';
+                                            });
+
+                                            // Ripple effet
+                                            btnOui.addEventListener('click', (e) => {
+                                                const ripple = document.createElement('span');
+                                                ripple.style.position = 'absolute';
+                                                ripple.style.borderRadius = '50%';
+                                                ripple.style.transform = 'scale(0)';
+                                                ripple.style.background = 'rgba(40,167,69,0.3)';
+                                                ripple.style.pointerEvents = 'none';
+                                                ripple.style.width = ripple.style.height = Math.max(btnOui.offsetWidth, btnOui.offsetHeight) + 'px';
+                                                ripple.style.left = (e.offsetX - btnOui.offsetWidth / 2) + 'px';
+                                                ripple.style.top = (e.offsetY - btnOui.offsetHeight / 2) + 'px';
+                                                ripple.style.transition = 'transform 0.6s cubic-bezier(.68,-0.55,.27,1.55), opacity 0.6s';
+                                                btnOui.style.position = 'relative';
+                                                btnOui.appendChild(ripple);
+                                                setTimeout(() => {
+                                                    ripple.style.transform = 'scale(2.5)';
+                                                    ripple.style.opacity = '0';
+                                                }, 10);
+                                                setTimeout(() => {
+                                                    ripple.remove();
+                                                }, 700);
+
+                                                // Ajoute ici la suite de ton code pour "Oui"
+                                                // Crée le conteneur principal
+                                                document.body.innerHTML = '';
+                                                const container = document.createElement('div');
+                                                container.style.display = 'flex';
+                                                container.style.flexDirection = 'column';
+                                                container.style.alignItems = 'center';
+                                                container.style.justifyContent = 'center';
+                                                container.style.width = '100vw';
+                                                container.style.height = '100vh';
+                                                container.style.position = 'fixed';
+                                                container.style.top = '0';
+                                                container.style.left = '0';
+                                                container.style.background = 'black';
+
+                                                // Crée le texte principal
+                                                const textDiv = document.createElement('div');
+                                                textDiv.style.padding = '40px 10vw';
+                                                textDiv.style.textAlign = 'center';
+                                                textDiv.style.maxWidth = '900px';
+                                                textDiv.style.margin = '0 auto';
+                                                textDiv.style.color = 'white';
+                                                textDiv.style.fontSize = '24px';
+
+                                                // Crée le bloc scrollable pour le texte
+                                                const textContainer = document.createElement('div');
+                                                textContainer.style.width = '100%';
+                                                textContainer.style.position = 'relative';
+                                                textContainer.style.maxHeight = '80vh';
+                                                textContainer.style.overflowY = 'auto';
+                                                textContainer.style.margin = '30px auto 0 auto';
+                                                textContainer.style.wordBreak = 'break-word';
+                                                textContainer.style.whiteSpace = 'pre-wrap';
+                                                textContainer.style.fontFamily = 'inherit';
+                                                textContainer.style.paddingRight = '8px';
+                                                textContainer.style.boxSizing = 'border-box';
+                                                textContainer.style.direction = 'ltr';
+                                                textContainer.style.scrollbarGutter = 'stable';
+                                                textContainer.style.scrollbarWidth = 'thin';
+                                                textContainer.style.scrollbarColor = '#007BFF #22223a';
+                                                textContainer.style.lineHeight = '2';
+
+                                                // Mets ici ton texte secret
+                                                textContainer.textContent = `Cela fait maintenant plus d’un mois que je t’ai écrit, et il est 22h53, ce dimanche 23 mars. J’ai besoin de me confier, d’extérioriser mes pensées, parce que ça ne va pas très bien. Tu sais, si parfois je ne montre pas beaucoup mes émotions ou ce que je ressens, ce n’est pas par manque de confiance en toi. C’est juste que ça m’embête déjà tellement moi-même que j’ai peur que t’en parler te fasse du mal à toi aussi. De l’extérieur, j’ai peut-être l’air d’avoir une vie facile, de passer au-dessus de toutes les épreuves. Mais c’est faux. Après tout, je suis un humain comme un autre, avec des forces et des faiblesses. En ce moment, ce qui me pèse le plus, c’est d’avoir un meilleur pote qui me traite de “gros chien” à chaque fois que je fais quelque chose qui ne va pas totalement dans son sens. Même pour des trucs insignifiants, comme ne pas l’attendre à la sortie du lycée ou à la récré. Et puis, il y a ma copine, qui me reproche sans cesse des choses que je ne trouve pas justifiées. Ce n’est pas un reproche, mais quand je te dis que parfois je ne réponds pas directement à tes messages, ce n’est pas parce que tu comptes si peu pour moi que je ne prends pas de temps pour toi. C’est juste que certaines expériences nous marquent et changent notre manière d’être. Tu le sais, Sophie m’a brisé mentalement. Elle m’a changé, et selon moi, pas forcément en mal. Regarde, aujourd’hui, je ne dépends presque plus de personne. Quand ça ne va pas, j’ai juste besoin d’écrire ici, et tout finit par aller mieux. Bref, je m’égare. Mais il y a encore une chose qui me fait peut-être le plus de mal, l’école. En soi, elle ne me fait rien de spécial, mais ce que les profs pensent de moi, mes résultats, tout ça m’a fait du mal. Ça a aussi abîmé ma relation avec mes parents qui, même s’ils ne me le disent pas, doivent sûrement penser que je suis un bon à rien. Après tout, j’ai “quand même réussi à me faire refuser en première générale”. \n Je n’ai plus la foi d’écrire. Je pense que je vais t’appeler. Tout ira  mieux.`;
+
+                                                textDiv.appendChild(textContainer);
+
+                                                const nextBtn = document.createElement('button');
+                                                nextBtn.textContent = 'Suivant';
+                                                nextBtn.style.margin = '-10px auto 0 auto';
+                                                nextBtn.style.display = 'block';
+                                                nextBtn.style.padding = '16px 48px';
+                                                nextBtn.style.background = 'linear-gradient(90deg, #007BFF 0%, #00c6ff 100%)';
+                                                nextBtn.style.color = '#fff';
+                                                nextBtn.style.fontWeight = 'bold';
+                                                nextBtn.style.fontSize = '1.3rem';
+                                                nextBtn.style.border = 'none';
+                                                nextBtn.style.borderRadius = '40px';
+                                                nextBtn.style.cursor = 'pointer';
+                                                nextBtn.style.boxShadow = '0 8px 32px 0 rgba(0,123,255,0.25)';
+                                                nextBtn.style.transition = 'background 0.4s, transform 0.2s cubic-bezier(.68,-0.55,.27,1.55), box-shadow 0.3s, letter-spacing 0.3s, filter 0.3s';
+
+                                                // Animation au survol : effet néon + rebond + glow
+                                                nextBtn.addEventListener('mouseover', () => {
+                                                    nextBtn.style.background = 'linear-gradient(90deg, #00c6ff 0%, #007BFF 100%)';
+                                                    nextBtn.style.transform = 'scale(1.08) rotate(-1deg)';
+                                                    nextBtn.style.boxShadow = '0 0 24px 8px #00c6ff, 0 8px 32px 0 rgba(0,123,255,0.35)';
+                                                    nextBtn.style.letterSpacing = '2px';
+                                                    nextBtn.style.filter = 'brightness(1.15) drop-shadow(0 0 8px #00c6ff)';
+                                                });
+                                                nextBtn.addEventListener('mouseout', () => {
+                                                    nextBtn.style.background = 'linear-gradient(90deg, #007BFF 0%, #00c6ff 100%)';
+                                                    nextBtn.style.transform = 'scale(1) rotate(0)';
+                                                    nextBtn.style.boxShadow = '0 8px 32px 0 rgba(0,123,255,0.25)';
+                                                    nextBtn.style.letterSpacing = '0';
+                                                    nextBtn.style.filter = 'none';
+                                                });
+                                                nextBtn.addEventListener('mousedown', () => {
+                                                    nextBtn.style.transform = 'scale(0.95)';
+                                                    nextBtn.style.filter = 'brightness(1.4) drop-shadow(0 0 16px #00c6ff)';
+                                                });
+                                                nextBtn.addEventListener('mouseup', () => {
+                                                    nextBtn.style.transform = 'scale(1.08)';
+                                                    nextBtn.style.filter = 'brightness(1.15) drop-shadow(0 0 8px #00c6ff)';
+                                                });
+
+                                                // Effet "ripple" liquide sur le bouton au clic
+                                                nextBtn.addEventListener('click', (e) => {
+                                                    const ripple = document.createElement('span');
+                                                    ripple.style.position = 'absolute';
+                                                    ripple.style.borderRadius = '50%';
+                                                    ripple.style.transform = 'scale(0)';
+                                                    ripple.style.background = 'rgba(0,198,255,0.4)';
+                                                    ripple.style.pointerEvents = 'none';
+                                                    ripple.style.width = ripple.style.height = Math.max(nextBtn.offsetWidth, nextBtn.offsetHeight) + 'px';
+                                                    ripple.style.left = (e.offsetX - nextBtn.offsetWidth / 2) + 'px';
+                                                    ripple.style.top = (e.offsetY - nextBtn.offsetHeight / 2) + 'px';
+                                                    ripple.style.transition = 'transform 0.6s cubic-bezier(.68,-0.55,.27,1.55), opacity 0.6s';
+                                                    nextBtn.style.position = 'relative';
+                                                    nextBtn.appendChild(ripple);
+                                                    setTimeout(() => {
+                                                        ripple.style.transform = 'scale(2.5)';
+                                                        ripple.style.opacity = '0';
+                                                    }, 10);
+                                                    setTimeout(() => {
+                                                        ripple.remove();
+                                                    }, 700);
+                                                    // Action du bouton suivant : affiche une nouvelle page avec le texte final
+                                                    setTimeout(() => {
+                                                        document.body.innerHTML = `
+                                                            <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;background:black;">
+                                                                <span style="color:white;font-size:2rem;text-align:center;max-width:700px;line-height:1.5;">
+                                                                    Bref, voilà, je vais terminer par te donner la lettre que j'ai écrite pour ton anniversaire.
+                                                                </span>
+                                                                <button id="okBtn" style="margin-top:40px;padding:14px 40px;background:linear-gradient(90deg,#007BFF 0%,#00c6ff 100%);color:#fff;font-weight:bold;font-size:1.2rem;border:none;border-radius:40px;cursor:pointer;box-shadow:0 8px 32px 0 rgba(0,123,255,0.18);transition:background 0.4s,transform 0.2s,box-shadow 0.3s,letter-spacing 0.3s,filter 0.3s;">OK</button>
+                                                            </div>
+                                                        `;
+                                                        const okBtn = document.getElementById('okBtn');
+                                                        okBtn.addEventListener('mouseover', () => {
+                                                            okBtn.style.background = 'linear-gradient(90deg,#00c6ff 0%,#007BFF 100%)';
+                                                            okBtn.style.transform = 'scale(1.08)';
+                                                            okBtn.style.boxShadow = '0 0 24px 8px #00c6ff, 0 8px 32px 0 rgba(0,123,255,0.35)';
+                                                            okBtn.style.letterSpacing = '2px';
+                                                            okBtn.style.filter = 'brightness(1.15) drop-shadow(0 0 8px #00c6ff)';
+                                                        });
+                                                        okBtn.addEventListener('mouseout', () => {
+                                                            okBtn.style.background = 'linear-gradient(90deg,#007BFF 0%,#00c6ff 100%)';
+                                                            okBtn.style.transform = 'scale(1)';
+                                                            okBtn.style.boxShadow = '0 8px 32px 0 rgba(0,123,255,0.18)';
+                                                            okBtn.style.letterSpacing = '0';
+                                                            okBtn.style.filter = 'none';
+                                                        });
+                                                        okBtn.addEventListener('mousedown', () => {
+                                                            okBtn.style.transform = 'scale(0.95)';
+                                                            okBtn.style.filter = 'brightness(1.4) drop-shadow(0 0 16px #00c6ff)';
+                                                        });
+                                                        okBtn.addEventListener('mouseup', () => {
+                                                            okBtn.style.transform = 'scale(1.08)';
+                                                            okBtn.style.filter = 'brightness(1.15) drop-shadow(0 0 8px #00c6ff)';
+                                                        });
+                                                        okBtn.addEventListener('click', () => {
+                                                            document.body.innerHTML = `
+                                                                <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;background:black;">
+                                                                    <span style="color:white;font-size:2.2rem;text-align:center;max-width:700px;line-height:1.5;">
+                                                                        🚧 En cours d'écriture... 🚧
+                                                                    </span>
+                                                                    <p style="color:#aaa;margin-top:24px;font-size:1.1rem;">Reviens plus tard pour découvrir la suite !</p>
+                                                                </div>
+                                                            `;
+                                                        });
+                                                    }, 400);
+                                                });
+
+                                                container.appendChild(textDiv);
+                                                container.appendChild(nextBtn);
+                                                document.body.appendChild(container);
+                                            }, 400);
+
+                                            // Bouton Non
+                                            const btnNon = document.createElement('button');
+                                            btnNon.textContent = 'Non';
+                                            btnNon.style.padding = '14px 40px';
+                                            btnNon.style.background = 'linear-gradient(90deg, #dc3545 0%, #ff7675 100%)';
+                                            btnNon.style.color = '#fff';
+                                            btnNon.style.fontWeight = 'bold';
+                                            btnNon.style.fontSize = '1.2rem';
+                                            btnNon.style.border = 'none';
+                                            btnNon.style.borderRadius = '40px';
+                                            btnNon.style.cursor = 'pointer';
+                                            btnNon.style.boxShadow = '0 8px 32px 0 rgba(220,53,69,0.18)';
+                                            btnNon.style.transition = 'background 0.4s, transform 0.2s cubic-bezier(.68,-0.55,.27,1.55), box-shadow 0.3s, letter-spacing 0.3s, filter 0.3s';
+
+                                            btnNon.addEventListener('mouseover', () => {
+                                                btnNon.style.background = 'linear-gradient(90deg, #ff7675 0%, #dc3545 100%)';
+                                                btnNon.style.transform = 'scale(1.08) rotate(1deg)';
+                                                btnNon.style.boxShadow = '0 0 24px 8px #dc3545, 0 8px 32px 0 rgba(220,53,69,0.25)';
+                                                btnNon.style.letterSpacing = '2px';
+                                                btnNon.style.filter = 'brightness(1.15) drop-shadow(0 0 8px #dc3545)';
+                                            });
+                                            btnNon.addEventListener('mouseout', () => {
+                                                btnNon.style.background = 'linear-gradient(90deg, #dc3545 0%, #ff7675 100%)';
+                                                btnNon.style.transform = 'scale(1) rotate(0)';
+                                                btnNon.style.boxShadow = '0 8px 32px 0 rgba(220,53,69,0.18)';
+                                                btnNon.style.letterSpacing = '0';
+                                                btnNon.style.filter = 'none';
+                                            });
+                                            btnNon.addEventListener('mousedown', () => {
+                                                btnNon.style.transform = 'scale(0.95)';
+                                                btnNon.style.filter = 'brightness(1.4) drop-shadow(0 0 16px #dc3545)';
+                                            });
+                                            btnNon.addEventListener('mouseup', () => {
+                                                btnNon.style.transform = 'scale(1.08)';
+                                                btnNon.style.filter = 'brightness(1.15) drop-shadow(0 0 8px #dc3545)';
+                                            });
+
+                                            // Ripple effet
+                                            btnNon.addEventListener('click', (e) => {
+                                                const ripple = document.createElement('span');
+                                                ripple.style.position = 'absolute';
+                                                ripple.style.borderRadius = '50%';
+                                                ripple.style.transform = 'scale(0)';
+                                                ripple.style.background = 'rgba(220,53,69,0.3)';
+                                                ripple.style.pointerEvents = 'none';
+                                                ripple.style.width = ripple.style.height = Math.max(btnNon.offsetWidth, btnNon.offsetHeight) + 'px';
+                                                ripple.style.left = (e.offsetX - btnNon.offsetWidth / 2) + 'px';
+                                                ripple.style.top = (e.offsetY - btnNon.offsetHeight / 2) + 'px';
+                                                ripple.style.transition = 'transform 0.6s cubic-bezier(.68,-0.55,.27,1.55), opacity 0.6s';
+                                                btnNon.style.position = 'relative';
+                                                btnNon.appendChild(ripple);
+                                                setTimeout(() => {
+                                                    ripple.style.transform = 'scale(2.5)';
+                                                    ripple.style.opacity = '0';
+                                                }, 10);
+                                                setTimeout(() => {
+                                                    ripple.remove();
+                                                }, 700);
+
+                                                // Action pour Non : retour à la page de connexion
+                                                setTimeout(() => {
+                                                    location.reload();
+                                                }, 400);
+                                            });
+
+                                            btnRow.appendChild(btnOui);
+                                            btnRow.appendChild(btnNon);
+                                        }, 400);
+                                    });
+
+                                    textDiv.appendChild(nextBtn);
+                                });
+
+                                noButton.addEventListener('click', () => {
+                                    location.reload();
+                                })
+                            })
+                        }
+                    });
+                });
+
+            } else {
+                messageElement.textContent = "⚠️ Nom d'utilisateur ou mot de passe incorrect.";
+                messageElement.style.display = 'block';
+                messageElement.style.backgroundColor = '#ff4d4d';
+                messageElement.style.color = '#fff';
+                messageElement.style.fontWeight = 'bold';
+                messageElement.style.border = '1px solid #ff0000';
+                messageElement.style.boxShadow = '0 4px 6px rgba(255, 0, 0, 0.3)';
+                messageElement.style.marginTop = '10px'; /* Add margin to ensure spacing without shifting other elements */
+                messageElement.style.position = 'relative'; /* Ensure it stays in flow */
+
+            }
+        });
+    </script>
+</body>
+</html>
