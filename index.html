@@ -313,7 +313,8 @@
                                                 `;
                                                 const retryButton = document.getElementById('retryButton');
                                                 retryButton.addEventListener('click', () => {
-                                                    document.getElementById('option3').click();
+                                                    // Restart the forgot password flow from the beginning
+                                                    location.reload();
                                                 });
                                             });
 
@@ -361,7 +362,8 @@
                                                     `;
                                                     const retryButton = document.getElementById('retryButton');
                                                     retryButton.addEventListener('click', () => {
-                                                        loveYes.click();
+                                                        // Recharge la page pour recommencer tout le flow
+                                                        location.reload();
                                                     });
                                                 });
 
@@ -409,7 +411,8 @@
                                                         `;
                                                         const retryButton = document.getElementById('retryButton');
                                                         retryButton.addEventListener('click', () => {
-                                                            thinkYes.click();
+                                                            // Recharge la page pour recommencer tout le flow
+                                                            location.reload();
                                                         });
                                                     });
 
@@ -565,7 +568,7 @@
                                             retryButton.style.transform = 'scale(1.1)';
                                         });
                                         retryButton.addEventListener('click', () => {
-                                            forgotPassword.click();
+                                            location.reload();
                                         });
                                     }
                                 });
