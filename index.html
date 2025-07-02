@@ -1095,71 +1095,20 @@
                                                         okBtn.addEventListener('click', () => {
                                                             document.body.innerHTML = `
                                                                 <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;background:black;">
-                                                                    <span style="color:white;font-size:2.2rem;text-align:center;max-width:700px;line-height:1.5;white-space:pre-line;">
-                                                                        Salut Vera,
-
-                                                                        Dans un premier temps, excuse moi de mon retard, je t’avoue que ces derniers temps, j’ai très peu de moments pour moi, et malheureusement, j’ai pas eu le temps de t’écrire cette lettre avant.
-                                                                        Je sais que t’étais un peu triste que je t’offre rien le jour de ton anniversaire, et franchement je comprends, mais j’aimerais que tu saches une chose.
-                                                                        Le site que tu es en train de voir m’a pris un mois et demi à faire.
-                                                                        Un mois et demi où tout le peu de temps libre que j’avais, je l’ai consacré à apprendre à créer ce que tu es en train de voir.
-                                                                        Je sais que comme ça, ça peut paraître simple, mais pour moi, c’était pas juste créer un site.
-
-                                                                        C’était t’exprimer mes sentiments de manière différente, te montrer d’une autre manière que je tiens à toi, que je pense à toi, que je t’aime.
-
-                                                                        En ce moment je fait comme tu le sais déjà des efforts. Et crois moi, j’en fais, beaucoup plus que ce que tu vois.
-                                                                        Mais récemment, j’ai compris un truc.
-                                                                        Tous ces efforts que je fais pour toi, c’est pas des efforts.
-                                                                        C’est devenu naturel, parce que je t’aime.
-                                                                        Et c’est là que j’ai réalisé que je m’étais vraiment attaché à toi.
-
-                                                                        Tu te rappelles quand je disais que je préférais ne pas m’attacher pour pas dépendre de quelqu’un ?
-                                                                        Ce discours là, il est plus d’actualité.
-                                                                        Il est même très loin derrière moi.
-                                                                        Je me suis attaché à toi sans même m’en rendre compte.
-                                                                        Je dépends de toi maintenant mdr.
-                                                                        Pas dans le sens où je pourrais pas vivre sans toi, mais dans le sens où la vie sans toi aurait clairement été différente (en négatif).
-
-                                                                        Tu m’apportes une vie que j’avais pas.
-                                                                        Tu me rends plus fort, plus heureux, plus moi même.
-                                                                        Je t’aime tous les jours un peu plus.
-                                                                        Même si parfois je suis chiant, aigri, fatigué, t’arrives toujours à me faire sourire.
-                                                                        T’as le pouvoir de me calmer, de me faire me sentir bien.
-                                                                        On dit que les six premiers mois c’est les plus beaux, et qu’après l’amour meurt peu à peu.
-                                                                        Mais avec toi, c’est pas le cas.
-                                                                        Même quand j’ai des doutes, ou qu’on se prend la tête, j’en reviens toujours à la même conclusion.
-                                                                        Notre amour est plus fort que tout.
-
-                                                                        Avant toi, j’étais un gars casanier, qui passait son temps devant un écran à jouer aux jeux vidéo.
-                                                                        Aujourd’hui, je sors tellement que mes parents me punissent plus de jeux, mais de sorties.
-                                                                        Tu m’as fait découvrir le monde de dehors, tu m’as changé, tu m’as donné l’envie de vivre autrement.
-                                                                        Et pour ça, je te remercierai jamais assez.
-
-                                                                        Je me suis déjà posé la question.
-                                                                        Pourquoi toi ? Pourquoi c’est de toi que je suis amoureux, alors qu’il y a des milliers d’autres filles ?
-                                                                        Et je crois que la réponse est simple.
-                                                                        C’est parce que t’arrive à la fois à me faire sourire à être fier de parler de toi à mes potes à me calmer quand je suis énervé.
-                                                                        T’as un truc dans les yeux, qui à chaque regard me rend heureux, me rempli d’envie de vivre.
-                                                                        T’es magnifique, mais pas juste physiquement.
-                                                                        T’es belle dans tes doutes, dans tes rires, dans ta manière de t’inquiéter pour moi.
-                                                                        C’est toi, parce y’en a aucune autre comme toi.
-
-                                                                        Je te promets pas la perfection, mais je te promets d’être là.
-                                                                        Avec mes défauts, mes problème, mes maladresses, mais avec un cœur sincère qui ne bat que pour toi.
-                                                                        T’es pas juste une histoire passagère, t’es un chapitre entier de ma vie.
-                                                                        Et j’espère que ce sera le plus long.
-
-                                                                        Je t’aime Vera.
-                                                                        Et ça changera pas.
-
-                                                                        Tom
+                                                                    <span style="color:white;font-size:2.2rem;text-align:center;max-width:700px;line-height:1.5;">
+                                                                        🚧 En cours d'écriture... 🚧
                                                                     </span>
+                                                                    <p style="color:#aaa;margin-top:24px;font-size:1.1rem;">Reviens plus tard pour découvrir la suite !</p>
                                                                 </div>
                                                             `;
                                                         });
-                                                    });
+                                                    }, 400);
                                                 });
-                                            });
-                                                        
+
+                                                container.appendChild(textDiv);
+                                                container.appendChild(nextBtn);
+                                                document.body.appendChild(container);
+                                            }, 400);
 
                                             // Bouton Non
                                             const btnNon = document.createElement('button');
